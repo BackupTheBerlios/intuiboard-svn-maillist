@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Intuiboard-svn] r44 - sources/lib
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/intuiboard-svn/2005-August/index.html" >
+   <LINK REL="made" HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r44%20-%20sources/lib&In-Reply-To=%3C200508130815.j7D8FDiX004681%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000006.html">
+   <LINK REL="Next"  HREF="000008.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Intuiboard-svn] r44 - sources/lib</H1>
+    <B>Michael Corcoran at BerliOS</B> 
+    <A HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r44%20-%20sources/lib&In-Reply-To=%3C200508130815.j7D8FDiX004681%40sheep.berlios.de%3E"
+       TITLE="[Intuiboard-svn] r44 - sources/lib">michael_c at berlios.de
+       </A><BR>
+    <I>Sat Aug 13 10:15:13 CEST 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000006.html">[Intuiboard-svn] r43 - / sources/lib
+</A></li>
+        <LI>Next message: <A HREF="000008.html">[Intuiboard-svn] r45 - cache/lang cache/skin sources
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: michael_c
+Date: 2005-08-13 10:15:06 +0200 (Sat, 13 Aug 2005)
+New Revision: 44
+
+Modified:
+   sources/lib/core.php
+Log:
+Fixed a couple of bugs in cache code.
+
+Modified: sources/lib/core.php
+===================================================================
+--- sources/lib/core.php	2005-08-13 07:42:41 UTC (rev 43)
++++ sources/lib/core.php	2005-08-13 08:15:06 UTC (rev 44)
+@@ -314,23 +314,28 @@
+ 	}
+ 	
+ 	function load_caches($caches) {
+-		$keys = '';
+-		
+-		foreach($caches as $key) {
+-			$keys .= &quot;'&quot;.$key.&quot;',&quot;;
++		if(count($caches)) {
++			$keys = '';
++			
++			foreach($caches as $key) {
++				$keys .= &quot;'&quot;.$key.&quot;',&quot;;
++			}
++			
++			$keys = preg_replace(&quot;#,$#&quot;, &quot;&quot;, $keys);
++			
++			$query = &quot;SELECT c_key, c_value FROM ib_caches WHERE c_key IN({$keys})&quot;;
++			
++			$this-&gt;db-&gt;query($query, __FILE__, __LINE__);
++			
++			while($row = $this-&gt;db-&gt;fetch_row()) {
++				$this-&gt;caches[$row['c_key']] = unserialize($row['c_value']);
++			}
++			
++			return true;
+ 		}
+-		
+-		$keys = preg_replace(&quot;#,$#&quot;, &quot;&quot;, $keys);
+-		
+-		$query = &quot;SELECT c_key, c_value FROM ib_caches WHERE c_key IN({$keys})&quot;;
+-		
+-		$this-&gt;db-&gt;query($query, __FILE__, __LINE__);
+-		
+-		while($row = $this-&gt;db-&gt;fetch_row()) {
+-			$caches[$row['c_key']] = unserialize($row['c_value']);
++		else {
++			return false;
+ 		}
+-		
+-		return true;
+ 	}
+ }
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000006.html">[Intuiboard-svn] r43 - / sources/lib
+</A></li>
+	<LI>Next message: <A HREF="000008.html">[Intuiboard-svn] r45 - cache/lang cache/skin sources
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#7">[ date ]</a>
+              <a href="thread.html#7">[ thread ]</a>
+              <a href="subject.html#7">[ subject ]</a>
+              <a href="author.html#7">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/intuiboard-svn">More information about the Intuiboard-svn
+mailing list</a><br>
+</body></html>

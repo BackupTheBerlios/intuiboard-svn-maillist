@@ -1,0 +1,140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Intuiboard-svn] r48 - cache/skin sources sources/lib
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/intuiboard-svn/2005-September/index.html" >
+   <LINK REL="made" HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r48%20-%20cache/skin%20sources%20sources/lib&In-Reply-To=%3C200509230031.j8N0VbXn018974%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000010.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Intuiboard-svn] r48 - cache/skin sources sources/lib</H1>
+    <B>intuiboard-svn-admin at lists.berlios.de</B> 
+    <A HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r48%20-%20cache/skin%20sources%20sources/lib&In-Reply-To=%3C200509230031.j8N0VbXn018974%40sheep.berlios.de%3E"
+       TITLE="[Intuiboard-svn] r48 - cache/skin sources sources/lib">intuiboard-svn-admin at lists.berlios.de
+       </A><BR>
+    <I>Fri Sep 23 02:31:37 CEST 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000010.html">[Intuiboard-svn] r47 - / cache/css cache/lang cache/skin sources sources/lib
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#11">[ date ]</a>
+              <a href="thread.html#11">[ thread ]</a>
+              <a href="subject.html#11">[ subject ]</a>
+              <a href="author.html#11">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: michael_c
+Date: 2005-09-23 02:31:34 +0200 (Fri, 23 Sep 2005)
+New Revision: 48
+
+Modified:
+   cache/skin/skin_topic.php
+   sources/act_topic.php
+   sources/lib/core.php
+Log:
+get=lastpost now works for sources/act_topic.php. Added code to redirect function for immediate redirects.
+
+Modified: cache/skin/skin_topic.php
+===================================================================
+--- cache/skin/skin_topic.php	2005-09-23 00:12:27 UTC (rev 47)
++++ cache/skin/skin_topic.php	2005-09-23 00:31:34 UTC (rev 48)
+@@ -61,7 +61,7 @@
+ function post_row($post) {
+ return &lt;&lt;&lt;EOF
+ 	
+-	&lt;tr class=&quot;topicrow&quot;&gt;
++	&lt;tr class=&quot;topicrow&quot; id=&quot;p{$post['p_id']}&quot;&gt;
+ 		&lt;td&gt;
+ 			&lt;h5&gt;&lt;a href=&quot;?act=member&amp;code=profile&amp;id={$post['p_author_id']}&quot;&gt;{$post['p_author_name']}&lt;/a&gt;&lt;/h5&gt;
+ 		&lt;/td&gt;
+
+Modified: sources/act_topic.php
+===================================================================
+--- sources/act_topic.php	2005-09-23 00:12:27 UTC (rev 47)
++++ sources/act_topic.php	2005-09-23 00:31:34 UTC (rev 48)
+@@ -46,6 +46,20 @@
+ 			$this-&gt;breeze-&gt;error('broken_link');
+ 		}
+ 		
++		$get_new = (isset($this-&gt;breeze-&gt;input['get']) &amp;&amp; $this-&gt;breeze-&gt;input['get'] == 'lastpost') ? true: false;
++		
++		if($get_new) {
++			$this-&gt;breeze-&gt;db-&gt;query(&quot;SELECT p.p_id FROM ib_posts p WHERE p.p_topic=&quot;.$tid.&quot; ORDER BY p_id DESC LIMIT 0,1&quot;, __FILE__, __LINE__);
++			$last = $this-&gt;breeze-&gt;db-&gt;fetch_row();
++			
++			if(!$last) {
++				$this-&gt;breeze-&gt;error('broken_link');
++			}
++			
++			$url = $this-&gt;breeze-&gt;baseurl.'act=topic&amp;id='.$tid.'#p'.$last['p_id'];
++			$this-&gt;breeze-&gt;redirect($url, '', 0);
++		}
++		
+ 		$this-&gt;breeze-&gt;db-&gt;query(&quot;SELECT t.*,f.f_name,f.f_perms FROM ib_topics t
+ 							LEFT JOIN ib_forums f ON(f.f_id=t.t_forum)
+ 							WHERE t_id=&quot;.$tid, __FILE__, __LINE__);
+
+Modified: sources/lib/core.php
+===================================================================
+--- sources/lib/core.php	2005-09-23 00:12:27 UTC (rev 47)
++++ sources/lib/core.php	2005-09-23 00:31:34 UTC (rev 48)
+@@ -256,16 +256,22 @@
+ 		setcookie($key, '', time()-(60*60*24*365));
+ 	}
+ 	
+-	function redirect($url, $msg = '') {
++	function redirect($url, $msg = '', $wait = 2) {
+ 		if($msg) {
+ 			$msg = $this-&gt;lang['global'][$msg];
+ 		}
+ 		
++		$wait = intval($wait);
++		
++		if(!$wait) {
++			@header(&quot;Location: &quot;.$url);
++		}
++		
+ 		$html = $this-&gt;skin['global']-&gt;redirect($url, $msg);
+ 		
+ 		$this-&gt;output-&gt;clear_output();
+ 		$this-&gt;output-&gt;add_output($html);
+-		$this-&gt;output-&gt;do_output('Test Forums', array('head' =&gt; '&lt;meta http-equiv=&quot;refresh&quot; content=&quot;2; url='.$url.'&quot; /&gt;'));
++		$this-&gt;output-&gt;do_output('Test Forums', array('head' =&gt; '&lt;meta http-equiv=&quot;refresh&quot; content=&quot;'.$wait.'; url='.$url.'&quot; /&gt;'));
+ 		die();
+ 	}
+ 	
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000010.html">[Intuiboard-svn] r47 - / cache/css cache/lang cache/skin sources sources/lib
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#11">[ date ]</a>
+              <a href="thread.html#11">[ thread ]</a>
+              <a href="subject.html#11">[ subject ]</a>
+              <a href="author.html#11">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/intuiboard-svn">More information about the Intuiboard-svn
+mailing list</a><br>
+</body></html>

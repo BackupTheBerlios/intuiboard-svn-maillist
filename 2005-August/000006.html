@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Intuiboard-svn] r43 - / sources/lib
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/intuiboard-svn/2005-August/index.html" >
+   <LINK REL="made" HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r43%20-%20/%20sources/lib&In-Reply-To=%3C200508130742.j7D7ghZM032388%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000007.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Intuiboard-svn] r43 - / sources/lib</H1>
+    <B>Michael Corcoran at BerliOS</B> 
+    <A HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r43%20-%20/%20sources/lib&In-Reply-To=%3C200508130742.j7D7ghZM032388%40sheep.berlios.de%3E"
+       TITLE="[Intuiboard-svn] r43 - / sources/lib">michael_c at berlios.de
+       </A><BR>
+    <I>Sat Aug 13 09:42:43 CEST 2005</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000007.html">[Intuiboard-svn] r44 - sources/lib
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#6">[ date ]</a>
+              <a href="thread.html#6">[ thread ]</a>
+              <a href="subject.html#6">[ subject ]</a>
+              <a href="author.html#6">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: michael_c
+Date: 2005-08-13 09:42:41 +0200 (Sat, 13 Aug 2005)
+New Revision: 43
+
+Modified:
+   index.php
+   sources/lib/core.php
+Log:
+Caching added.
+
+Modified: index.php
+===================================================================
+--- index.php	2005-07-26 05:52:10 UTC (rev 42)
++++ index.php	2005-08-13 07:42:41 UTC (rev 43)
+@@ -68,10 +68,10 @@
+ 
+ // heres what we can do
+ $acts = array(	
+-				'index'			=&gt; array('board'		,'act_board'		, array()),
++				'index'			=&gt; array('board'		,'act_board'		, array('stats')),
+ 				'forum'			=&gt; array('forum'		,'act_forum'		, array()),
+-				'topic'			=&gt; array('topic'		,'act_topic'			, array()),
+-				'login'				=&gt; array('login'		,'act_login'			, array()),
++				'topic'			=&gt; array('topic'		,'act_topic'		, array()),
++				'login'			=&gt; array('login'		,'act_login'		, array()),
+ 			);
+ 			
+ // what do they want and can they do it?
+@@ -82,6 +82,9 @@
+ 	$ib_core-&gt;input['act'] = 'index';
+ }
+ 
++// load caches
++$ib_core-&gt;load_caches($acts[$ib_core-&gt;input['act']][2]);
++
+ // do it
+ require_once rootpath.&quot;sources/{$acts[$ib_core-&gt;input['act']][1]}.php&quot;;
+ $act = new $acts[$ib_core-&gt;input['act']][0]($ib_core);
+
+Modified: sources/lib/core.php
+===================================================================
+--- sources/lib/core.php	2005-07-26 05:52:10 UTC (rev 42)
++++ sources/lib/core.php	2005-08-13 07:42:41 UTC (rev 43)
+@@ -37,6 +37,8 @@
+ 	var $func;
+ 	var $output;
+ 	
++	var $caches = array();
++	
+ 	var $skin;
+ 	var $lang;
+ 	
+@@ -310,6 +312,26 @@
+ 			return $datestr;
+ 		}
+ 	}
++	
++	function load_caches($caches) {
++		$keys = '';
++		
++		foreach($caches as $key) {
++			$keys .= &quot;'&quot;.$key.&quot;',&quot;;
++		}
++		
++		$keys = preg_replace(&quot;#,$#&quot;, &quot;&quot;, $keys);
++		
++		$query = &quot;SELECT c_key, c_value FROM ib_caches WHERE c_key IN({$keys})&quot;;
++		
++		$this-&gt;db-&gt;query($query, __FILE__, __LINE__);
++		
++		while($row = $this-&gt;db-&gt;fetch_row()) {
++			$caches[$row['c_key']] = unserialize($row['c_value']);
++		}
++		
++		return true;
++	}
+ }
+ 
+ // timer class
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000007.html">[Intuiboard-svn] r44 - sources/lib
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#6">[ date ]</a>
+              <a href="thread.html#6">[ thread ]</a>
+              <a href="subject.html#6">[ subject ]</a>
+              <a href="author.html#6">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/intuiboard-svn">More information about the Intuiboard-svn
+mailing list</a><br>
+</body></html>

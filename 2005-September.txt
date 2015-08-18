@@ -1,0 +1,2062 @@
+From michael_c at berlios.de  Wed Sep 21 12:53:26 2005
+From: michael_c at berlios.de (Michael Corcoran at BerliOS)
+Date: Wed, 21 Sep 2005 12:53:26 +0200
+Subject: [Intuiboard-svn] r46 - / cache/css cache/images cache/lang cache/skin sources sources/lib
+Message-ID: <200509211053.j8LArQQB001656@sheep.berlios.de>
+
+Author: michael_c
+Date: 2005-09-21 12:53:22 +0200 (Wed, 21 Sep 2005)
+New Revision: 46
+
+Added:
+   breeze_config.php
+Removed:
+   ib_config.php
+Modified:
+   cache/css/style.css
+   cache/images/header.png
+   cache/images/header.psd
+   cache/lang/lang_error.php
+   cache/lang/lang_global.php
+   cache/skin/skin_board.php
+   cache/skin/skin_forum.php
+   cache/skin/skin_global.php
+   cache/skin/skin_login.php
+   cache/skin/skin_topic.php
+   index.php
+   sources/act_board.php
+   sources/act_forum.php
+   sources/act_login.php
+   sources/act_topic.php
+   sources/lib/core.php
+   sources/lib/db_mysql.php
+   sources/lib/output.php
+   sources/lib/session.php
+Log:
+Breeze = the new name. :P
+Also protected all files from direct access. :D
+
+Added: breeze_config.php
+===================================================================
+--- breeze_config.php	2005-08-13 08:15:55 UTC (rev 45)
++++ breeze_config.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -0,0 +1,58 @@
++<?php
++/*
+++----------------------------------------------------------------------------------------
++|  IntuiBoard {$version_str$} ({$version_num$})
++|  http://www.intuiboard.com
+++----------------------------------------------------------------------------------------
++|  Revision: $WCREV$
++|  Date: $WCDATE$
+++----------------------------------------------------------------------------------------
++|  Copyright (C) {$copyright_year$} Michael Corcoran
+++----------------------------------------------------------------------------------------
++|  IntuiBoard is free software; you can redistribute it and/or modify
++|  it under the terms of the GNU General Public License as published by
++|  the Free Software Foundation; either version 2 of the License, or
++|  (at your option) any later version.
++|  
++|  IntuiBoard is distributed in the hope that it will be useful,
++|  but WITHOUT ANY WARRANTY; without even the implied warranty of
++|  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++|  GNU General Public License for more details.
++|  
++|  You should have received a copy of the GNU General Public License
++|  along with IntuiBoard; if not, write to the Free Software
++|  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+++----------------------------------------------------------------------------------------
++|  Config File
+++----------------------------------------------------------------------------------------
++*/
++
++$conf = array(
++
++// Database info
++'db_host'			=> 'localhost',
++'db_user'			=> 'intuiboa_dev',
++'db_pass'			=> 'Sk4CHgfkbr',
++'db_database'			=> 'intuiboa_dev',
++'db_prefix'			=> 'ib_',
++'db_persistent'			=> 0,
++'db_debug'			=> 1,
++'db_driver'			=> 'mysql',
++
++'site_name'			=> 'IntuiBoard Home',
++'site_url'			=> 'http://www.intuiboard.com',
++'board_name' 			=> 'Development Board',
++'base_url'			=> 'http://localhost/intuiboard/dev/current/',
++'image_url'			=> 'http://localhost/intuiboard/dev/current/cache/images/',
++'file_ext'			=> 'php',
++
++'sess_max_age' 			=> 15,
++
++'single_forum'			=> 0,
++'show_stats'			=> 1,
++'stats_online_max_age'		=> 15,
++
++'gzip_compress'			=> 1,
++
++);
++?>
+\ No newline at end of file
+
+Modified: cache/css/style.css
+===================================================================
+--- cache/css/style.css	2005-08-13 08:15:55 UTC (rev 45)
++++ cache/css/style.css	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,19 +1,19 @@
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+
+Modified: cache/images/header.png
+===================================================================
+(Binary files differ)
+
+Modified: cache/images/header.psd
+===================================================================
+(Binary files differ)
+
+Modified: cache/lang/lang_error.php
+===================================================================
+--- cache/lang/lang_error.php	2005-08-13 08:15:55 UTC (rev 45)
++++ cache/lang/lang_error.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,6 +27,10 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ $lang_error = array(
+ 
+ 'no_perms' 		=> 'You do not have permission to view this page!',
+
+Modified: cache/lang/lang_global.php
+===================================================================
+--- cache/lang/lang_global.php	2005-08-13 08:15:55 UTC (rev 45)
++++ cache/lang/lang_global.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,6 +27,10 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ $lang_global = array(
+ 
+ 'stats_and'		=> 'and',
+
+Modified: cache/skin/skin_board.php
+===================================================================
+--- cache/skin/skin_board.php	2005-08-13 08:15:55 UTC (rev 45)
++++ cache/skin/skin_board.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,11 +27,15 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ class skin_board {
+-var $ib_core;
++var $breeze;
+ 	
+-function skin_board(&$ibcore) {
+-	$this->ib_core =& $ibcore;
++function skin_board(&$breeze) {
++	$this->breeze =& $breeze;
+ }
+ 
+ 
+@@ -51,11 +55,11 @@
+ return <<<EOF
+ 
+ <div class="onlinestats">
+-	<h3>{$this->ib_core->lang['global']['board_stats']}</h3>
+-	<h4>{$this->ib_core->lang['global']['online_users']}</h4>
+-	<h5>{$stats['guests']} {$this->ib_core->lang['global']['online_guests']}, {$stats['members']} {$this->ib_core->lang['global']['online_members']}</h5>
++	<h3>{$this->breeze->lang['global']['board_stats']}</h3>
++	<h4>{$this->breeze->lang['global']['online_users']}</h4>
++	<h5>{$stats['guests']} {$this->breeze->lang['global']['online_guests']}, {$stats['members']} {$this->breeze->lang['global']['online_members']}</h5>
+ 	{$stats['users']}
+-	<p>{$stats['total_members']} {$this->ib_core->lang['global']['total_members']} {$this->ib_core->lang['global']['stats_contributed']} {$stats['total_topics']} {$this->ib_core->lang['global']['total_topics']} {$this->ib_core->lang['global']['stats_and']} {$stats['total_replies']} {$this->ib_core->lang['global']['total_replies']}.</p>
++	<p>{$stats['total_members']} {$this->breeze->lang['global']['total_members']} {$this->breeze->lang['global']['stats_contributed']} {$stats['total_topics']} {$this->breeze->lang['global']['total_topics']} {$this->breeze->lang['global']['stats_and']} {$stats['total_replies']} {$this->breeze->lang['global']['total_replies']}.</p>
+ </div>
+ 
+ EOF;
+
+Modified: cache/skin/skin_forum.php
+===================================================================
+--- cache/skin/skin_forum.php	2005-08-13 08:15:55 UTC (rev 45)
++++ cache/skin/skin_forum.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,11 +27,15 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ class skin_forum {
+-	var $ib_core;
++	var $breeze;
+ 	
+-	function skin_forum(&$ibcore) {
+-		$this->ib_core =& $ibcore;
++	function skin_forum(&$breeze) {
++		$this->breeze =& $breeze;
+ 	}
+ 
+ function topic_head() {
+@@ -71,7 +75,7 @@
+ 		</td>
+ 		<td class="centre">{$topic['t_replies']}</td>
+ 		<td>
+-			<p><a href="{$this->ib_core->baseurl}act=member&amp;code=profile&amp;id={$topic['t_last_post_author_id']}">{$topic['t_last_post_author_name']}</a></p>
++			<p><a href="{$this->breeze->baseurl}act=member&amp;code=profile&amp;id={$topic['t_last_post_author_id']}">{$topic['t_last_post_author_name']}</a></p>
+ 			<p>{$topic['t_last_post_date']}</p>
+ 		</td>
+ 	</tr>
+
+Modified: cache/skin/skin_global.php
+===================================================================
+--- cache/skin/skin_global.php	2005-08-13 08:15:55 UTC (rev 45)
++++ cache/skin/skin_global.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,11 +27,15 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ class skin_global {
+-var $ib_core;
++var $breeze;
+ 	
+-function skin_global(&$ibcore) {
+-	$this->ib_core =& $ibcore;
++function skin_global(&$breeze) {
++	$this->breeze =& $breeze;
+ }
+ 
+ 
+@@ -87,7 +91,7 @@
+ 
+ $stats
+ <div class="copyright">
+-	<strong><a href="http://www.intuiboard.com">IntuiBoard</a></strong> <em>{$this->ib_core->version}</em> &copy; Copyright 2005 Michael Corcoran
++	<strong><a href="http://www.intuiboard.com">IntuiBoard</a></strong> <em>{$this->breeze->version}</em> &copy; Copyright 2005 Michael Corcoran
+ </div>
+ 
+ EOF;
+@@ -106,7 +110,7 @@
+ function member_bar(&$user) {
+ return <<<EOF
+ <div id="memberbar">
+-				Welcome <a href="{$this->ib_core->baseurl}act=member&amp;code=profile&amp;id={$user['m_id']}">{$user['m_name']}</a>! ( <a href="{$this->ib_core->baseurl}act=login&amp;code=logout">Logout</a> )
++				Welcome <a href="{$this->breeze->baseurl}act=member&amp;code=profile&amp;id={$user['m_id']}">{$user['m_name']}</a>! ( <a href="{$this->breeze->baseurl}act=login&amp;code=logout">Logout</a> )
+ 			</div>
+ EOF;
+ }
+@@ -114,7 +118,7 @@
+ function member_bar_guest() {
+ return <<<EOF
+ <div id="memberbar">
+-				Welcome Guest! ( <a href="{$this->ib_core->baseurl}act=login">Login</a> or <a href="{$this->ib_core->baseurl}act=login&amp;code=reg">Register</a> )
++				Welcome Guest! ( <a href="{$this->breeze->baseurl}act=login">Login</a> or <a href="{$this->breeze->baseurl}act=login&amp;code=reg">Register</a> )
+ 			</div>
+ EOF;
+ }
+@@ -144,7 +148,7 @@
+ 
+ function breadcrumb_start($title, $url) {
+ return <<<EOF
+-<img src="{$this->ib_core->imgurl}nav.png" alt="&raquo;" />&nbsp;<a href="{$url}">{$title}</a>
++<img src="{$this->breeze->imgurl}nav.png" alt="&raquo;" />&nbsp;<a href="{$url}">{$title}</a>
+ EOF;
+ }
+ 
+
+Modified: cache/skin/skin_login.php
+===================================================================
+--- cache/skin/skin_login.php	2005-08-13 08:15:55 UTC (rev 45)
++++ cache/skin/skin_login.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,11 +27,15 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ class skin_login {
+-	var $ib_core;
++	var $breeze;
+ 	
+-	function skin_login(&$ibcore) {
+-		$this->ib_core =& $ibcore;
++	function skin_login(&$breeze) {
++		$this->breeze =& $breeze;
+ 	}
+ 
+ 
+
+Modified: cache/skin/skin_topic.php
+===================================================================
+--- cache/skin/skin_topic.php	2005-08-13 08:15:55 UTC (rev 45)
++++ cache/skin/skin_topic.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,11 +27,15 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ class skin_topic {
+-	var $ib_core;
++	var $breeze;
+ 	
+-	function skin_topic(&$ibcore) {
+-		$this->ib_core =& $ibcore;
++	function skin_topic(&$breeze) {
++		$this->breeze =& $breeze;
+ 	}
+ 	
+ function topic_head($topic) {
+
+Deleted: ib_config.php
+===================================================================
+--- ib_config.php	2005-08-13 08:15:55 UTC (rev 45)
++++ ib_config.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,58 +0,0 @@
+-<?php
+-/*
+-+----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
+-+----------------------------------------------------------------------------------------
+-|  Revision: $WCREV$
+-|  Date: $WCDATE$
+-+----------------------------------------------------------------------------------------
+-|  Copyright (C) {$copyright_year$} Michael Corcoran
+-+----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
+-|  it under the terms of the GNU General Public License as published by
+-|  the Free Software Foundation; either version 2 of the License, or
+-|  (at your option) any later version.
+-|  
+-|  IntuiBoard is distributed in the hope that it will be useful,
+-|  but WITHOUT ANY WARRANTY; without even the implied warranty of
+-|  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-|  GNU General Public License for more details.
+-|  
+-|  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
+-|  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+-+----------------------------------------------------------------------------------------
+-|  Config File
+-+----------------------------------------------------------------------------------------
+-*/
+-
+-$conf = array(
+-
+-// Database info
+-'db_host'			=> 'localhost',
+-'db_user'			=> 'intuiboa_dev',
+-'db_pass'			=> 'Sk4CHgfkbr',
+-'db_database'			=> 'intuiboa_dev',
+-'db_prefix'			=> 'ib_',
+-'db_persistent'			=> 0,
+-'db_debug'			=> 1,
+-'db_driver'			=> 'mysql',
+-
+-'site_name'			=> 'IntuiBoard Home',
+-'site_url'			=> 'http://www.intuiboard.com',
+-'board_name' 			=> 'Development Board',
+-'base_url'			=> 'http://localhost/intuiboard/dev/current/',
+-'image_url'			=> 'http://localhost/intuiboard/dev/current/cache/images/',
+-'file_ext'			=> 'php',
+-
+-'sess_max_age' 			=> 15,
+-
+-'single_forum'			=> 0,
+-'show_stats'			=> 1,
+-'stats_online_max_age'		=> 15,
+-
+-'gzip_compress'			=> 1,
+-
+-);
+-?>
+\ No newline at end of file
+
+Modified: index.php
+===================================================================
+--- index.php	2005-08-13 08:15:55 UTC (rev 45)
++++ index.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -26,7 +26,7 @@
+ */
+ 
+ // define what software we are and the rootpath
+-define('ib', true);
++define('breeze', true);
+ define('rootpath', './');
+ 
+ // which errors to report?
+@@ -36,60 +36,60 @@
+ require_once rootpath.'sources/lib/core.php';
+ 
+ // setup our core class so we can get onto other things
+-$ib_core = new ib_core(rootpath.'ib_config.php');
++$breeze = new breeze(rootpath.'breeze_config.php');
+ 
+ // start timing here
+-$ib_core->timer = new timer();
+-$ib_core->timer->start();
++$breeze->timer = new timer();
++$breeze->timer->start();
+ 
+ // setup the database
+-require_once rootpath.'sources/lib/db_'.$ib_core->conf['db_driver'].'.php';
+-$ib_core->db = new database($ib_core);
++require_once rootpath.'sources/lib/db_'.$breeze->conf['db_driver'].'.php';
++$breeze->db = new database($breeze);
+ 
+ // get ready for output
+ require rootpath.'sources/lib/output.php';
+-$ib_core->output = new output($ib_core);
++$breeze->output = new output($breeze);
+ 
+ // get the global skin & lang ready
+-$ib_core->load_skin('global');
+-$ib_core->load_lang('global');
++$breeze->load_skin('global');
++$breeze->load_lang('global');
+ 
+ // retrieve user input
+-$ib_core->input = $ib_core->get_input();
++$breeze->input = $breeze->get_input();
+ 
+ // connect the database
+-$ib_core->db->connect();
++$breeze->db->connect();
+ 
+ // session
+ require_once rootpath.'sources/lib/session.php';
+-$ib_core->sess = new lib_session($ib_core);
+-$ib_core->sess->load_member();
++$breeze->sess = new lib_session($breeze);
++$breeze->sess->load_member();
+ 
+ 
+ // heres what we can do
+ $acts = array(	
+ 				'index'			=> array('board'		,'act_board'		, array('stats')),
+ 				'forum'			=> array('forum'		,'act_forum'		, array()),
+-				'topic'			=> array('topic'		,'act_topic'		, array()),
+-				'login'			=> array('login'		,'act_login'		, array()),
++				'topic'			=> array('topic'		,'act_topic'			, array()),
++				'login'				=> array('login'		,'act_login'			, array()),
+ 			);
+ 			
+ // what do they want and can they do it?
+-if(!isset($ib_core->input['act'])) {
+-	$ib_core->input['act'] = 'index';
++if(!isset($breeze->input['act'])) {
++	$breeze->input['act'] = 'index';
+ }
+-elseif(!isset($acts[$ib_core->input['act']])) {
+-	$ib_core->input['act'] = 'index';
++elseif(!isset($acts[$breeze->input['act']])) {
++	$breeze->input['act'] = 'index';
+ }
+ 
+ // load caches
+-$ib_core->load_caches($acts[$ib_core->input['act']][2]);
++$breeze->load_caches($acts[$breeze->input['act']][2]);
+ 
+ // do it
+-require_once rootpath."sources/{$acts[$ib_core->input['act']][1]}.php";
+-$act = new $acts[$ib_core->input['act']][0]($ib_core);
++require_once rootpath."sources/{$acts[$breeze->input['act']][1]}.php";
++$act = new $acts[$breeze->input['act']][0]($breeze);
+ 
+ 
+ // disconnect the database just in case
+-$ib_core->db->close();
++$breeze->db->close();
+ ?>
+\ No newline at end of file
+
+Modified: sources/act_board.php
+===================================================================
+--- sources/act_board.php	2005-08-13 08:15:55 UTC (rev 45)
++++ sources/act_board.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,48 +27,52 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ class board {
+-	var $ib_core;
++	var $breeze;
+ 	
+ 	var $skin;
+ 	var $output = '';
+ 	
+-	function board(&$ibcore) {
+-		$this->ib_core =& $ibcore;
++	function board(&$breeze) {
++		$this->breeze =& $breeze;
+ 		
+-		$this->skin = $this->ib_core->load_skin('board');
++		$this->skin = $this->breeze->load_skin('board');
+ 		
+-		$this->ib_core->input['code'] = isset($this->ib_core->input['code']) ? $this->ib_core->input['code'] : '';
++		$this->breeze->input['code'] = isset($this->breeze->input['code']) ? $this->breeze->input['code'] : '';
+ 		
+-		switch($this->ib_core->input['code']) {
++		switch($this->breeze->input['code']) {
+ 			default:
+ 				$this->_show_index();
+ 				break;
+ 		}
+ 				
+-		$this->ib_core->output->add_output($this->output);
+-		$this->ib_core->output->do_output($this->ib_core->conf['board_name']);
++		$this->breeze->output->add_output($this->output);
++		$this->breeze->output->do_output($this->breeze->conf['board_name']);
+ 	}
+ 	
+ 	function _show_index() {
+-		if($this->ib_core->conf['single_forum']) {
+-			$this->_show_index_topics(intval($this->ib_core->conf['single_forum']));
++		if($this->breeze->conf['single_forum']) {
++			$this->_show_index_topics(intval($this->breeze->conf['single_forum']));
+ 		}
+ 		else {
+ 			$this->_show_index_forums();
+ 		}
+ 		
+-		if($this->ib_core->conf['show_stats']) {
++		if($this->breeze->conf['show_stats']) {
+ 			$this->_show_index_stats();
+ 		}
+ 	}
+ 	
+ 	function _show_index_forums() {
+-		$this->ib_core->db->query("SELECT * FROM ib_forums ORDER BY f_order", __FILE__, __LINE__);
++		$this->breeze->db->query("SELECT * FROM ib_forums ORDER BY f_order", __FILE__, __LINE__);
+ 		
+-		while($row = $this->ib_core->db->fetch_row()) {
++		while($row = $this->breeze->db->fetch_row()) {
+ 			$perms = unserialize($row['f_perms']);
+-			if(!in_array($this->ib_core->member['g_perms'], explode('|', $perms['list']))) {
++			if(!in_array($this->breeze->member['g_perms'], explode('|', $perms['list']))) {
+ 				continue;
+ 			}
+ 			
+@@ -77,19 +81,19 @@
+ 				$row['f_last_poster'] = '<span class="blank">None</span>';
+ 			}
+ 			else {
+-				$row['f_last_topic'] = '<a href="'.$this->ib_core->baseurl.'act=topic&amp;id='.$row['f_last_topic_id'].'&amp;get=lastpost">'.$row['f_last_topic_title'].'</a>';
+-				$row['f_last_poster'] = '<em><a href="'.$this->ib_core->baseurl.'act=member&amp;code=profile&amp;id='.$row['f_last_poster_id'].'">'.$row['f_last_poster_name'].'</a></em>';
++				$row['f_last_topic'] = '<a href="'.$this->breeze->baseurl.'act=topic&amp;id='.$row['f_last_topic_id'].'&amp;get=lastpost">'.$row['f_last_topic_title'].'</a>';
++				$row['f_last_poster'] = '<em><a href="'.$this->breeze->baseurl.'act=member&amp;code=profile&amp;id='.$row['f_last_poster_id'].'">'.$row['f_last_poster_name'].'</a></em>';
+ 			}
+ 				
+-			$this->output .= $this->ib_core->skin['board']->forum_row($row);
++			$this->output .= $this->breeze->skin['board']->forum_row($row);
+ 		}
+ 	}
+ 	
+ 	function _show_index_topics($fid) {
+-		$this->ib_core->load_skin('forum');
++		$this->breeze->load_skin('forum');
+ 		
+-		$this->ib_core->db->query("SELECT * FROM ib_forums WHERE f_id=".$fid, __FILE__, __LINE__);
+-		$forum = $this->ib_core->db->fetch_row();
++		$this->breeze->db->query("SELECT * FROM ib_forums WHERE f_id=".$fid, __FILE__, __LINE__);
++		$forum = $this->breeze->db->fetch_row();
+ 		
+ 		if(!$forum) {
+ 			$this->_show_index_forums();
+@@ -97,30 +101,30 @@
+ 		}
+ 		
+ 		$perms = unserialize($forum['f_perms']);
+-		if(!in_array($this->ib_core->member['g_perms'], explode('|', $perms['list']))) {
+-			$this->ib_core->error('no_perms');
++		if(!in_array($this->breeze->member['g_perms'], explode('|', $perms['list']))) {
++			$this->breeze->error('no_perms');
+ 		}
+ 		
+-		$this->output .= $this->ib_core->skin['forum']->topic_head();
++		$this->output .= $this->breeze->skin['forum']->topic_head();
+ 		
+-		$this->ib_core->db->query("SELECT * FROM ib_topics WHERE t_forum=".$fid." ORDER BY t_last_post_date DESC", __FILE__, __LINE__);
++		$this->breeze->db->query("SELECT * FROM ib_topics WHERE t_forum=".$fid." ORDER BY t_last_post_date DESC", __FILE__, __LINE__);
+ 		
+-		while($row = $this->ib_core->db->fetch_row()) {
+-			$row['t_last_post_date'] = $this->ib_core->get_date($row['t_last_post_date']);
++		while($row = $this->breeze->db->fetch_row()) {
++			$row['t_last_post_date'] = $this->breeze->get_date($row['t_last_post_date']);
+ 			
+-			$this->output .= $this->ib_core->skin['forum']->topic_row($row);
++			$this->output .= $this->breeze->skin['forum']->topic_row($row);
+ 		}
+ 		
+-		$this->output .= $this->ib_core->skin['forum']->topic_foot();
++		$this->output .= $this->breeze->skin['forum']->topic_foot();
+ 		
+-		$this->ib_core->nav[] = array($forum['f_name'], '?act=forum&amp;id='.$fid);
++		$this->breeze->nav[] = array($forum['f_name'], '?act=forum&amp;id='.$fid);
+ 	}
+ 	
+ 	function _show_index_stats() {
+ 		$stats = array();
+ 		
+-		$maxage = (time() - (intval($this->ib_core->conf['stats_online_max_age']) * 60));
+-		$this->ib_core->db->query("SELECT s.s_age,m.m_id,m.m_name FROM ib_sessions s 
++		$maxage = (time() - (intval($this->breeze->conf['stats_online_max_age']) * 60));
++		$this->breeze->db->query("SELECT s.s_age,m.m_id,m.m_name FROM ib_sessions s 
+ 							LEFT JOIN ib_members m ON(m.m_id=s.s_member_id)
+ 							WHERE s_age>".$maxage, __FILE__, __LINE__);
+ 		
+@@ -129,9 +133,9 @@
+ 		$stats['guests'] = 0;
+ 		$stats['members'] = 0;
+ 		
+-		while($row = $this->ib_core->db->fetch_row()) {
++		while($row = $this->breeze->db->fetch_row()) {
+ 			if($row['m_id']) {
+-				$stats['users'] .= '<a href="'.$this->ib_core->baseurl.'act=member&amp;code=profile&amp;id='.$row['m_id'].'">'.$row['m_name'].'</a>,';
++				$stats['users'] .= '<a href="'.$this->breeze->baseurl.'act=member&amp;code=profile&amp;id='.$row['m_id'].'">'.$row['m_name'].'</a>,';
+ 				$stats['members']++;
+ 			}
+ 			else {
+@@ -142,11 +146,11 @@
+ 		$stats['users'] = preg_replace("#,$#", "", $stats['users']);
+ 		
+ 		
+-		$stats['total_members']	= $this->ib_core->caches['stats']['total_members'];
+-		$stats['total_topics']	= $this->ib_core->caches['stats']['total_topics'];
+-		$stats['total_replies']	= $this->ib_core->caches['stats']['total_replies'];
++		$stats['total_members']	= $this->breeze->caches['stats']['total_members'];
++		$stats['total_topics']	= $this->breeze->caches['stats']['total_topics'];
++		$stats['total_replies']	= $this->breeze->caches['stats']['total_replies'];
+ 		
+-		$this->output .= $this->ib_core->skin['board']->board_stats($stats);
++		$this->output .= $this->breeze->skin['board']->board_stats($stats);
+ 	}
+ }
+ ?>
+\ No newline at end of file
+
+Modified: sources/act_forum.php
+===================================================================
+--- sources/act_forum.php	2005-08-13 08:15:55 UTC (rev 45)
++++ sources/act_forum.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,53 +27,57 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ class forum {
+-	var $ib_core;
++	var $breeze;
+ 	
+ 	var $output = '';
+ 	
+ 	var $fid;
+ 	
+-	function forum(&$ibcore) {
+-		$this->ib_core =& $ibcore;
++	function forum(&$breeze) {
++		$this->breeze =& $breeze;
+ 		
+-		$this->ib_core->load_skin('forum');
++		$this->breeze->load_skin('forum');
+ 		
+-		$fid = isset($this->ib_core->input['id']) ? intval($this->ib_core->input['id']) : 0;
++		$fid = isset($this->breeze->input['id']) ? intval($this->breeze->input['id']) : 0;
+ 		
+ 		if(!$fid) {
+-			$this->ib_core->error('broken_link');
++			$this->breeze->error('broken_link');
+ 		}
+ 		
+-		$this->ib_core->db->query("SELECT * FROM ib_forums WHERE f_id=".$fid, __FILE__, __LINE__);
+-		$forum = $this->ib_core->db->fetch_row();
++		$this->breeze->db->query("SELECT * FROM ib_forums WHERE f_id=".$fid, __FILE__, __LINE__);
++		$forum = $this->breeze->db->fetch_row();
+ 		
+ 		if(!$forum) {
+-			$this->ib_core->error('broken_link');
++			$this->breeze->error('broken_link');
+ 		}
+ 		
+ 		$perms = unserialize($forum['f_perms']);
+-		if(!in_array($this->ib_core->member['g_perms'], explode('|', $perms['list']))) {
+-			$this->ib_core->error('no_perms');
++		if(!in_array($this->breeze->member['g_perms'], explode('|', $perms['list']))) {
++			$this->breeze->error('no_perms');
+ 		}
+ 		
+-		$this->output .= $this->ib_core->skin['forum']->topic_head();
++		$this->output .= $this->breeze->skin['forum']->topic_head();
+ 		
+-		$this->ib_core->db->query("SELECT * FROM ib_topics WHERE t_forum=".$fid." ORDER BY t_last_post_date DESC", __FILE__, __LINE__);
++		$this->breeze->db->query("SELECT * FROM ib_topics WHERE t_forum=".$fid." ORDER BY t_last_post_date DESC", __FILE__, __LINE__);
+ 		
+-		while($row = $this->ib_core->db->fetch_row()) {
+-			$row['t_last_post_date'] = $this->ib_core->get_date($row['t_last_post_date']);
++		while($row = $this->breeze->db->fetch_row()) {
++			$row['t_last_post_date'] = $this->breeze->get_date($row['t_last_post_date']);
+ 			
+-			$this->output .= $this->ib_core->skin['forum']->topic_row($row);
++			$this->output .= $this->breeze->skin['forum']->topic_row($row);
+ 		}
+ 		
+-		$this->output .= $this->ib_core->skin['forum']->topic_foot();
++		$this->output .= $this->breeze->skin['forum']->topic_foot();
+ 		
+ 		
+-		$this->ib_core->nav[] = array($forum['f_name'], '?act=forum&amp;id='.$fid);
++		$this->breeze->nav[] = array($forum['f_name'], '?act=forum&amp;id='.$fid);
+ 		
+-		$this->ib_core->output->add_output($this->output);
+-		$this->ib_core->output->do_output($forum['f_name']);
++		$this->breeze->output->add_output($this->output);
++		$this->breeze->output->do_output($forum['f_name']);
+ 	}
+ }
+ ?>
+\ No newline at end of file
+
+Modified: sources/act_login.php
+===================================================================
+--- sources/act_login.php	2005-08-13 08:15:55 UTC (rev 45)
++++ sources/act_login.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,18 +27,22 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ class login {
+-	var $ib_core;
++	var $breeze;
+ 	var $output = '';
+ 	
+-	function login(&$ibcore) {
+-		$this->ib_core =& $ibcore;
++	function login(&$breeze) {
++		$this->breeze =& $breeze;
+ 
+-		$this->ib_core->load_skin('login');
++		$this->breeze->load_skin('login');
+ 		
+-		$this->ib_core->input['code'] = isset($this->ib_core->input['code']) ? $this->ib_core->input['code'] : '';
++		$this->breeze->input['code'] = isset($this->breeze->input['code']) ? $this->breeze->input['code'] : '';
+ 
+-		switch($this->ib_core->input['code']) {
++		switch($this->breeze->input['code']) {
+ 			//-----------------------------
+ 			case 'reg':
+ 				$this->_register_form();
+@@ -60,8 +64,8 @@
+ 			//-----------------------------
+ 		}
+ 		
+-		$this->ib_core->output->add_output($this->output);
+-		$this->ib_core->output->do_output($this->ib_core->conf['board_name']);
++		$this->breeze->output->add_output($this->output);
++		$this->breeze->output->do_output($this->breeze->conf['board_name']);
+ 	}
+ 	
+ 	// Main registration functions
+@@ -75,11 +79,11 @@
+ 	
+ 	// Main login functions
+ 	function _login_form() {
+-		$this->output .= $this->ib_core->skin['login']->login_form();
++		$this->output .= $this->breeze->skin['login']->login_form();
+ 	}
+ 	
+ 	function _do_login() {
+-		$clean_input = $this->ib_core->validate_form(
++		$clean_input = $this->breeze->validate_form(
+ 					array(	'username' 	=> 'text',
+ 							'password' 	=> 'text',
+ 							'remember' 	=> 'bool',
+@@ -88,8 +92,8 @@
+ 		
+ 		// login here
+ 		$m_name = addslashes($clean_input['username']);
+-		$this->ib_core->db->query("SELECT m_id, m_pass_hash, m_pass_salt FROM ib_members WHERE m_name='".$m_name."'", __FILE__, __LINE__);
+-		$row = $this->ib_core->db->fetch_row();
++		$this->breeze->db->query("SELECT m_id, m_pass_hash, m_pass_salt FROM ib_members WHERE m_name='".$m_name."'", __FILE__, __LINE__);
++		$row = $this->breeze->db->fetch_row();
+ 		
+ 		if($row['m_pass_hash'] == md5(md5($row['m_pass_salt']).md5($clean_input['password']))) {
+ 			// login
+@@ -97,14 +101,14 @@
+ 			$_SESSION['m_pass_hash'] = $row['m_pass_hash'];
+ 			
+ 			if($clean_input['remember']) {
+-				$this->ib_core->my_set_cookie('m_id', $row['m_id']);
+-				$this->ib_core->my_set_cookie('m_pass_hash', $row['m_pass_hash']);
++				$this->breeze->my_set_cookie('m_id', $row['m_id']);
++				$this->breeze->my_set_cookie('m_pass_hash', $row['m_pass_hash']);
+ 			}
+ 			
+-			$this->ib_core->redirect('?act=index', 'logged_in');
++			$this->breeze->redirect('?act=index', 'logged_in');
+ 		}
+ 		else {
+-			$this->ib_core->error('invalid_login');
++			$this->breeze->error('invalid_login');
+ 		}
+ 	}
+ 	
+@@ -112,10 +116,10 @@
+ 		$_SESSION = array();
+ 		session_destroy();
+ 		
+-		$this->ib_core->my_unset_cookie('m_id');
+-		$this->ib_core->my_unset_cookie('m_pass_hash');
++		$this->breeze->my_unset_cookie('m_id');
++		$this->breeze->my_unset_cookie('m_pass_hash');
+ 			
+-		$this->ib_core->redirect('?act=index', 'logged_out');
++		$this->breeze->redirect('?act=index', 'logged_out');
+ 	}
+ }
+ ?>
+\ No newline at end of file
+
+Modified: sources/act_topic.php
+===================================================================
+--- sources/act_topic.php	2005-08-13 08:15:55 UTC (rev 45)
++++ sources/act_topic.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,53 +27,57 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ class topic {
+-	var $ib_core;
++	var $breeze;
+ 	var $output = '';
+ 	
+-	function topic(&$ibcore) {
+-		$this->ib_core =& $ibcore;
++	function topic(&$breeze) {
++		$this->breeze =& $breeze;
+ 		
+-		$this->ib_core->load_skin('topic');
++		$this->breeze->load_skin('topic');
+ 		
+-		$tid = isset($this->ib_core->input['id']) ? intval($this->ib_core->input['id']) : 0;
++		$tid = isset($this->breeze->input['id']) ? intval($this->breeze->input['id']) : 0;
+ 		
+ 		if(!$tid) {
+-			$this->ib_core->error('broken_link');
++			$this->breeze->error('broken_link');
+ 		}
+ 		
+-		$this->ib_core->db->query("SELECT t.*,f.f_name,f.f_perms FROM ib_topics t
++		$this->breeze->db->query("SELECT t.*,f.f_name,f.f_perms FROM ib_topics t
+ 							LEFT JOIN ib_forums f ON(f.f_id=t.t_forum)
+ 							WHERE t_id=".$tid, __FILE__, __LINE__);
+-		$topic = $this->ib_core->db->fetch_row();
++		$topic = $this->breeze->db->fetch_row();
+ 		
+ 		if(!$topic) {
+-			$this->ib_core->error('broken_link');
++			$this->breeze->error('broken_link');
+ 		}
+ 		
+ 		$perms = unserialize($topic['f_perms']);
+-		if(!in_array($this->ib_core->member['g_perms'], explode('|', $perms['view']))) {
+-			$this->ib_core->error('no_perms');
++		if(!in_array($this->breeze->member['g_perms'], explode('|', $perms['view']))) {
++			$this->breeze->error('no_perms');
+ 		}
+ 		
+-		$this->output .= $this->ib_core->skin['topic']->topic_head($topic);
++		$this->output .= $this->breeze->skin['topic']->topic_head($topic);
+ 		
+-		$this->ib_core->db->query("SELECT * FROM ib_posts WHERE p_topic=".$tid." ORDER BY p_date ASC", __FILE__, __LINE__);
++		$this->breeze->db->query("SELECT * FROM ib_posts WHERE p_topic=".$tid." ORDER BY p_date ASC", __FILE__, __LINE__);
+ 		
+-		while($row = $this->ib_core->db->fetch_row()) {
+-			$row['p_date'] = $this->ib_core->get_date($row['p_date']);
++		while($row = $this->breeze->db->fetch_row()) {
++			$row['p_date'] = $this->breeze->get_date($row['p_date']);
+ 			
+-			$this->output .= $this->ib_core->skin['topic']->post_row($row);
++			$this->output .= $this->breeze->skin['topic']->post_row($row);
+ 		}
+ 		
+-		$this->output .= $this->ib_core->skin['topic']->topic_foot();
++		$this->output .= $this->breeze->skin['topic']->topic_foot();
+ 		
+ 		
+-		$this->ib_core->nav[] = array($topic['f_name'], '?act=forum&amp;id='.$topic['t_forum']);
+-		$this->ib_core->nav[] = array($topic['t_title'], '?act=topic&amp;id='.$topic['t_id']);
++		$this->breeze->nav[] = array($topic['f_name'], '?act=forum&amp;id='.$topic['t_forum']);
++		$this->breeze->nav[] = array($topic['t_title'], '?act=topic&amp;id='.$topic['t_id']);
+ 		
+-		$this->ib_core->output->add_output($this->output);
+-		$this->ib_core->output->do_output($topic['t_title']);
++		$this->breeze->output->add_output($this->output);
++		$this->breeze->output->do_output($topic['t_title']);
+ 	}
+ }
+ ?>
+\ No newline at end of file
+
+Modified: sources/lib/core.php
+===================================================================
+--- sources/lib/core.php	2005-08-13 08:15:55 UTC (rev 45)
++++ sources/lib/core.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,7 +27,11 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
+-class ib_core {
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
++class breeze {
+ 	var $version = '{$version_str$}';
+ 	var $version_num = '{$version_num$}';
+ 	
+@@ -51,7 +55,7 @@
+ 	
+ 	var $timer;
+ 	
+-	function ib_core($conf_file) {
++	function breeze($conf_file) {
+ 		require $conf_file;
+ 		
+ 		$this->conf =& $conf;
+
+Modified: sources/lib/db_mysql.php
+===================================================================
+--- sources/lib/db_mysql.php	2005-08-13 08:15:55 UTC (rev 45)
++++ sources/lib/db_mysql.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,9 +27,13 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ class database {
+ 	// classes needed
+-	var $ib_core;
++	var $breeze;
+ 	var $timer;
+ 	
+ 	// config info
+@@ -52,11 +56,11 @@
+ 	var $debug_queries = array();
+ 	var $debug_info = '';
+ 	
+-	function database(&$ib_core, $config = false) {
+-		$this->ib_core =& $ib_core;
++	function database(&$breeze, $config = false) {
++		$this->breeze =& $breeze;
+ 		
+ 		if(!$config) {
+-			$config =& $this->ib_core->conf;
++			$config =& $this->breeze->conf;
+ 		}
+ 		
+ 		$this->host 		=& $config['db_host'];
+
+Modified: sources/lib/output.php
+===================================================================
+--- sources/lib/output.php	2005-08-13 08:15:55 UTC (rev 45)
++++ sources/lib/output.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,13 +27,17 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ class output {
+-	var $ib_core;
++	var $breeze;
+ 	
+ 	var $output = '';
+ 	
+-	function output(&$ib_core) {
+-		$this->ib_core =& $ib_core;
++	function output(&$breeze) {
++		$this->breeze =& $breeze;
+ 	}
+ 	
+ 	function add_output($txt) {
+@@ -45,34 +49,34 @@
+ 	}
+ 	
+ 	function do_output($title, $options = array()) {	
+-		if(isset($this->ib_core->input['db_debug']) && $this->ib_core->db->debug) {
++		if(isset($this->breeze->input['db_debug']) && $this->breeze->db->debug) {
+ 			$this->clear_output();
+-			$this->add_output($this->ib_core->db->get_debug_html());
++			$this->add_output($this->breeze->db->get_debug_html());
+ 			
+-			$this->ib_core->nav[] = array('DB Debuger', '');
++			$this->breeze->nav[] = array('DB Debuger', '');
+ 			$title .= ' :DB Debugger';
+ 		}
+ 		
+ 		$vars = array();
+ 		
+-		$stats = $this->ib_core->finish();
++		$stats = $this->breeze->finish();
+ 		
+ 		$vars['title'] 	= $title. ' - Powered by IntuiBoard';
+-		$vars['css'] 	= $this->ib_core->skin['global']->css_cached('cache/css/style.css');
+-		$vars['header'] 	= $this->ib_core->skin['global']->board_header();
+-		$vars['footer'] 	= $this->ib_core->skin['global']->board_footer($stats);
++		$vars['css'] 	= $this->breeze->skin['global']->css_cached('cache/css/style.css');
++		$vars['header'] 	= $this->breeze->skin['global']->board_header();
++		$vars['footer'] 	= $this->breeze->skin['global']->board_footer($stats);
+ 		$vars['body'] 	= $this->output;
+-		$vars['nav'] 	= $this->ib_core->build_breadcrumb();
++		$vars['nav'] 	= $this->breeze->build_breadcrumb();
+ 		
+-		if($this->ib_core->member['m_id']) {
+-			$vars['mbar'] = $this->ib_core->skin['global']->member_bar($this->ib_core->member);
++		if($this->breeze->member['m_id']) {
++			$vars['mbar'] = $this->breeze->skin['global']->member_bar($this->breeze->member);
+ 		}
+ 		else {
+-			$vars['mbar'] = $this->ib_core->skin['global']->member_bar_guest();
++			$vars['mbar'] = $this->breeze->skin['global']->member_bar_guest();
+ 		}
+ 				
+ 		
+-		$output = $this->ib_core->skin['global']->wrapper($vars);
++		$output = $this->breeze->skin['global']->wrapper($vars);
+ 		
+ 		if(count($options)) {
+ 			foreach($options as $var => $val) {
+@@ -82,7 +86,7 @@
+ 		
+ 		$output = preg_replace("#\{.+?\}#", "", $output);
+ 		
+-		if($this->ib_core->conf['gzip_compress']) {
++		if($this->breeze->conf['gzip_compress']) {
+ 			ob_start('ob_gzhandler');
+ 		}
+ 		
+
+Modified: sources/lib/session.php
+===================================================================
+--- sources/lib/session.php	2005-08-13 08:15:55 UTC (rev 45)
++++ sources/lib/session.php	2005-09-21 10:53:22 UTC (rev 46)
+@@ -1,20 +1,20 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+@@ -27,13 +27,17 @@
+ +----------------------------------------------------------------------------------------
+ */
+ 
++if(!defined('breeze')) {
++	die('Error: You may not access this file directly!');
++}
++
+ class lib_session {
+-	var $ib_core;
++	var $breeze;
+ 	
+ 	var $sess;
+ 	
+-	function lib_session(&$ib_core) {
+-		$this->ib_core =& $ib_core;
++	function lib_session(&$breeze) {
++		$this->breeze =& $breeze;
+ 		
+ 		session_set_save_handler(array($this, 'cb_open'), array($this, 'cb_close'), array($this, 'cb_read'), array($this, 'cb_write'), array($this, 'cb_destroy'), array($this, 'cb_gc'));
+ 		if(!ini_get('session.auto_start')) {
+@@ -45,7 +49,7 @@
+ 	}
+ 	
+ 	function load_member() {
+-		if(!isset($this->ib_core->member)) {
++		if(!isset($this->breeze->member)) {
+ 			if(isset($_SESSION['m_id']) && isset($_SESSION['m_pass_hash'])) {
+ 				$m_id = intval($_SESSION['m_id']);
+ 				$m_pass_hash = $_SESSION['m_pass_hash'];
+@@ -60,12 +64,12 @@
+ 			}
+ 			
+ 			if($m_id) {
+-				$this->ib_core->db->query("SELECT m.*,g.*,p.perm_id FROM ib_members m
++				$this->breeze->db->query("SELECT m.*,g.*,p.perm_id FROM ib_members m
+ 									LEFT JOIN ib_groups g ON(g.g_id=m.m_group)
+ 									LEFT JOIN ib_perms p ON(p.perm_id=g.g_perms)
+ 									WHERE m_id=".$m_id, __FILE__, __LINE__);
+ 									
+-				$member = $this->ib_core->db->fetch_row();
++				$member = $this->breeze->db->fetch_row();
+ 				
+ 				if($m_pass_hash != $member['m_pass_hash']) {
+ 					$m_id = 0;
+@@ -75,17 +79,17 @@
+ 			
+ 			if(!$m_id) {
+ 				//guest
+-				$this->ib_core->db->query("SELECT g.*,p.perm_id FROM ib_groups g
++				$this->breeze->db->query("SELECT g.*,p.perm_id FROM ib_groups g
+ 									LEFT JOIN ib_perms p ON(p.perm_id=g.g_perms)
+ 									WHERE g_id=2", __FILE__, __LINE__);
+ 									
+-				$member = $this->ib_core->db->fetch_row();
++				$member = $this->breeze->db->fetch_row();
+ 				
+ 				$member['m_id'] = 0;
+ 				$member['m_name'] = 'Guest';
+ 			}
+ 			
+-			$this->ib_core->member =& $member;
++			$this->breeze->member =& $member;
+ 		}
+ 	}
+ 		
+@@ -103,16 +107,16 @@
+ 			return $this->sess['s_data'];
+ 		}
+ 		
+-		$this->ib_core->db->query("SELECT * FROM ib_sessions WHERE s_id='".addslashes($id)."'", __FILE__, __LINE__);
++		$this->breeze->db->query("SELECT * FROM ib_sessions WHERE s_id='".addslashes($id)."'", __FILE__, __LINE__);
+ 		
+-		if(!$this->ib_core->db->num_rows()) {
+-			$this->ib_core->db->query("INSERT INTO ib_sessions VALUES('".addslashes($id)."','',".time().",".intval($this->ib_core->member['m_id']).")", __FILE__, __LINE__);
+-			$this->sess = array('s_id' => $id, 's_data' => '', 's_age' => time(), 's_member_id' => intval($this->ib_core->member['m_id']));
++		if(!$this->breeze->db->num_rows()) {
++			$this->breeze->db->query("INSERT INTO ib_sessions VALUES('".addslashes($id)."','',".time().",".intval($this->breeze->member['m_id']).")", __FILE__, __LINE__);
++			$this->sess = array('s_id' => $id, 's_data' => '', 's_age' => time(), 's_member_id' => intval($this->breeze->member['m_id']));
+ 			
+ 			return '';
+ 		}
+ 		
+-		$row = $this->ib_core->db->fetch_row();
++		$row = $this->breeze->db->fetch_row();
+ 		
+ 		$this->sess = $row;
+ 		
+@@ -120,23 +124,23 @@
+ 	}
+ 	
+ 	function cb_write($id, $sess_data) {
+-		$this->ib_core->db->query("UPDATE ib_sessions SET s_data='".addslashes($sess_data)."',s_age=".time().",s_member_id=".intval($this->ib_core->member['m_id'])." WHERE s_id='".addslashes($id)."'", __FILE__, __LINE__);
+-		$this->sess = array('s_id' => $id, 's_data' => $sess_data, 's_age' => time(), 's_member_id' => intval($this->ib_core->member['m_id']));
++		$this->breeze->db->query("UPDATE ib_sessions SET s_data='".addslashes($sess_data)."',s_age=".time().",s_member_id=".intval($this->breeze->member['m_id'])." WHERE s_id='".addslashes($id)."'", __FILE__, __LINE__);
++		$this->sess = array('s_id' => $id, 's_data' => $sess_data, 's_age' => time(), 's_member_id' => intval($this->breeze->member['m_id']));
+ 		
+ 		return true;
+ 	}
+ 	
+ 	function cb_destroy($id)  {
+-		$this->ib_core->db->query("DELETE FROM ib_sessions WHERE s_id='".addslashes($id)."'", __FILE__, __LINE__);
++		$this->breeze->db->query("DELETE FROM ib_sessions WHERE s_id='".addslashes($id)."'", __FILE__, __LINE__);
+ 		unset($this->sess);
+ 		
+ 		return true;
+ 	}
+ 	
+ 	function cb_gc($maxlifetime) {
+-		$maxage = time() - ($this->ib_core->conf['sess_max_age']*60);
++		$maxage = time() - ($this->breeze->conf['sess_max_age']*60);
+ 		
+-		$this->ib_core->db->query("DELETE FROM ib_sessions WHERE s_age>".addslashes($maxage), __FILE__, __LINE__);
++		$this->breeze->db->query("DELETE FROM ib_sessions WHERE s_age>".addslashes($maxage), __FILE__, __LINE__);
+ 		if($this->sess['s_age'] > $maxlifetime) {
+ 			unset($this->sess);
+ 		}
+
+
+
+From intuiboard-svn-admin at lists.berlios.de  Fri Sep 23 02:12:31 2005
+From: intuiboard-svn-admin at lists.berlios.de (intuiboard-svn-admin at lists.berlios.de)
+Date: Fri, 23 Sep 2005 02:12:31 +0200
+Subject: [Intuiboard-svn] r47 - / cache/css cache/lang cache/skin sources sources/lib
+Message-ID: <200509230012.j8N0CVWe025608@sheep.berlios.de>
+
+Author: michael_c
+Date: 2005-09-23 02:12:27 +0200 (Fri, 23 Sep 2005)
+New Revision: 47
+
+Modified:
+   breeze_config.php
+   cache/css/style.css
+   cache/lang/lang_error.php
+   cache/lang/lang_global.php
+   cache/skin/skin_board.php
+   cache/skin/skin_forum.php
+   cache/skin/skin_global.php
+   cache/skin/skin_login.php
+   cache/skin/skin_topic.php
+   index.php
+   sources/act_board.php
+   sources/act_forum.php
+   sources/act_login.php
+   sources/act_topic.php
+   sources/lib/core.php
+   sources/lib/db_mysql.php
+   sources/lib/output.php
+   sources/lib/session.php
+Log:
+more breezifying
+
+Modified: breeze_config.php
+===================================================================
+--- breeze_config.php	2005-09-21 10:53:22 UTC (rev 46)
++++ breeze_config.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -1,26 +1,26 @@
+ <?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  http://www.intuiboard.com
++|  Breeze {$version_str$} ({$version_num$})
++|  http://www.breezeboard.com
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Config File
+@@ -39,8 +39,8 @@
+ 'db_debug'			=> 1,
+ 'db_driver'			=> 'mysql',
+ 
+-'site_name'			=> 'IntuiBoard Home',
+-'site_url'			=> 'http://www.intuiboard.com',
++'site_name'			=> 'Breeze Home',
++'site_url'			=> 'http://www.breezeboard.com',
+ 'board_name' 			=> 'Development Board',
+ 'base_url'			=> 'http://localhost/intuiboard/dev/current/',
+ 'image_url'			=> 'http://localhost/intuiboard/dev/current/cache/images/',
+
+Modified: cache/css/style.css
+===================================================================
+--- cache/css/style.css	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/css/style.css	2005-09-23 00:12:27 UTC (rev 47)
+@@ -19,7 +19,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Stylesheet
+
+Modified: cache/lang/lang_error.php
+===================================================================
+--- cache/lang/lang_error.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/lang/lang_error.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Language File: lang_error
+
+Modified: cache/lang/lang_global.php
+===================================================================
+--- cache/lang/lang_global.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/lang/lang_global.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Language File: lang_global
+
+Modified: cache/skin/skin_board.php
+===================================================================
+--- cache/skin/skin_board.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/skin/skin_board.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Skin Template: skin_board
+
+Modified: cache/skin/skin_forum.php
+===================================================================
+--- cache/skin/skin_forum.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/skin/skin_forum.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Skin Template: skin_forum
+
+Modified: cache/skin/skin_global.php
+===================================================================
+--- cache/skin/skin_global.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/skin/skin_global.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Skin Template: skin_global
+@@ -82,7 +82,7 @@
+ 
+ function board_header() {
+ return <<<EOF
+-<a href="?act=index"><img src="./cache/images/header.png" alt="IntuiBoard" title="IntuiBoard" /></a>
++<a href="?act=index"><img src="./cache/images/header.png" alt="Breeze" title="Breeze" /></a>
+ EOF;
+ }
+ 
+@@ -91,7 +91,7 @@
+ 
+ $stats
+ <div class="copyright">
+-	<strong><a href="http://www.intuiboard.com">IntuiBoard</a></strong> <em>{$this->breeze->version}</em> &copy; Copyright 2005 Michael Corcoran
++	<strong><a href="http://www.breezeboard.com">Breeze</a></strong> <em>{$this->breeze->version}</em> &copy; Copyright 2005 Michael Corcoran
+ </div>
+ 
+ EOF;
+
+Modified: cache/skin/skin_login.php
+===================================================================
+--- cache/skin/skin_login.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/skin/skin_login.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Skin Template: skin_login
+
+Modified: cache/skin/skin_topic.php
+===================================================================
+--- cache/skin/skin_topic.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/skin/skin_topic.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Skin Template: skin_topic
+
+Modified: index.php
+===================================================================
+--- index.php	2005-09-21 10:53:22 UTC (rev 46)
++++ index.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ */
+
+Modified: sources/act_board.php
+===================================================================
+--- sources/act_board.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/act_board.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Board Index
+
+Modified: sources/act_forum.php
+===================================================================
+--- sources/act_forum.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/act_forum.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Forum Display
+
+Modified: sources/act_login.php
+===================================================================
+--- sources/act_login.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/act_login.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Login/Register
+
+Modified: sources/act_topic.php
+===================================================================
+--- sources/act_topic.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/act_topic.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  View Topic
+
+Modified: sources/lib/core.php
+===================================================================
+--- sources/lib/core.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/lib/core.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Core Function Library
+
+Modified: sources/lib/db_mysql.php
+===================================================================
+--- sources/lib/db_mysql.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/lib/db_mysql.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  MySQL Database Abstraction Layer
+
+Modified: sources/lib/output.php
+===================================================================
+--- sources/lib/output.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/lib/output.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Output Control
+@@ -61,7 +61,7 @@
+ 		
+ 		$stats = $this->breeze->finish();
+ 		
+-		$vars['title'] 	= $title. ' - Powered by IntuiBoard';
++		$vars['title'] 	= $title. ' - Powered by Breeze';
+ 		$vars['css'] 	= $this->breeze->skin['global']->css_cached('cache/css/style.css');
+ 		$vars['header'] 	= $this->breeze->skin['global']->board_header();
+ 		$vars['footer'] 	= $this->breeze->skin['global']->board_footer($stats);
+
+Modified: sources/lib/session.php
+===================================================================
+--- sources/lib/session.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/lib/session.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Session Library
+
+
+
+From intuiboard-svn-admin at lists.berlios.de  Fri Sep 23 02:31:37 2005
+From: intuiboard-svn-admin at lists.berlios.de (intuiboard-svn-admin at lists.berlios.de)
+Date: Fri, 23 Sep 2005 02:31:37 +0200
+Subject: [Intuiboard-svn] r48 - cache/skin sources sources/lib
+Message-ID: <200509230031.j8N0VbXn018974@sheep.berlios.de>
+
+Author: michael_c
+Date: 2005-09-23 02:31:34 +0200 (Fri, 23 Sep 2005)
+New Revision: 48
+
+Modified:
+   cache/skin/skin_topic.php
+   sources/act_topic.php
+   sources/lib/core.php
+Log:
+get=lastpost now works for sources/act_topic.php. Added code to redirect function for immediate redirects.
+
+Modified: cache/skin/skin_topic.php
+===================================================================
+--- cache/skin/skin_topic.php	2005-09-23 00:12:27 UTC (rev 47)
++++ cache/skin/skin_topic.php	2005-09-23 00:31:34 UTC (rev 48)
+@@ -61,7 +61,7 @@
+ function post_row($post) {
+ return <<<EOF
+ 	
+-	<tr class="topicrow">
++	<tr class="topicrow" id="p{$post['p_id']}">
+ 		<td>
+ 			<h5><a href="?act=member&amp;code=profile&amp;id={$post['p_author_id']}">{$post['p_author_name']}</a></h5>
+ 		</td>
+
+Modified: sources/act_topic.php
+===================================================================
+--- sources/act_topic.php	2005-09-23 00:12:27 UTC (rev 47)
++++ sources/act_topic.php	2005-09-23 00:31:34 UTC (rev 48)
+@@ -46,6 +46,20 @@
+ 			$this->breeze->error('broken_link');
+ 		}
+ 		
++		$get_new = (isset($this->breeze->input['get']) && $this->breeze->input['get'] == 'lastpost') ? true: false;
++		
++		if($get_new) {
++			$this->breeze->db->query("SELECT p.p_id FROM ib_posts p WHERE p.p_topic=".$tid." ORDER BY p_id DESC LIMIT 0,1", __FILE__, __LINE__);
++			$last = $this->breeze->db->fetch_row();
++			
++			if(!$last) {
++				$this->breeze->error('broken_link');
++			}
++			
++			$url = $this->breeze->baseurl.'act=topic&id='.$tid.'#p'.$last['p_id'];
++			$this->breeze->redirect($url, '', 0);
++		}
++		
+ 		$this->breeze->db->query("SELECT t.*,f.f_name,f.f_perms FROM ib_topics t
+ 							LEFT JOIN ib_forums f ON(f.f_id=t.t_forum)
+ 							WHERE t_id=".$tid, __FILE__, __LINE__);
+
+Modified: sources/lib/core.php
+===================================================================
+--- sources/lib/core.php	2005-09-23 00:12:27 UTC (rev 47)
++++ sources/lib/core.php	2005-09-23 00:31:34 UTC (rev 48)
+@@ -256,16 +256,22 @@
+ 		setcookie($key, '', time()-(60*60*24*365));
+ 	}
+ 	
+-	function redirect($url, $msg = '') {
++	function redirect($url, $msg = '', $wait = 2) {
+ 		if($msg) {
+ 			$msg = $this->lang['global'][$msg];
+ 		}
+ 		
++		$wait = intval($wait);
++		
++		if(!$wait) {
++			@header("Location: ".$url);
++		}
++		
+ 		$html = $this->skin['global']->redirect($url, $msg);
+ 		
+ 		$this->output->clear_output();
+ 		$this->output->add_output($html);
+-		$this->output->do_output('Test Forums', array('head' => '<meta http-equiv="refresh" content="2; url='.$url.'" />'));
++		$this->output->do_output('Test Forums', array('head' => '<meta http-equiv="refresh" content="'.$wait.'; url='.$url.'" />'));
+ 		die();
+ 	}
+ 	
+
+
+

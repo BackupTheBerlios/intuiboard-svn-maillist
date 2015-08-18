@@ -1,0 +1,87 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Intuiboard-svn] r56 - trunk
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/intuiboard-svn/2005-October/index.html" >
+   <LINK REL="made" HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r56%20-%20trunk&In-Reply-To=%3C200510080542.j985gGWt029508%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000018.html">
+   <LINK REL="Next"  HREF="000020.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Intuiboard-svn] r56 - trunk</H1>
+    <B>intuiboard-svn-admin at lists.berlios.de</B> 
+    <A HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r56%20-%20trunk&In-Reply-To=%3C200510080542.j985gGWt029508%40sheep.berlios.de%3E"
+       TITLE="[Intuiboard-svn] r56 - trunk">intuiboard-svn-admin at lists.berlios.de
+       </A><BR>
+    <I>Sat Oct  8 07:42:16 CEST 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000018.html">[Intuiboard-svn] r55 - trunk/sources/lib
+</A></li>
+        <LI>Next message: <A HREF="000020.html">[Intuiboard-svn] r57 - trunk/sources/lib
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#19">[ date ]</a>
+              <a href="thread.html#19">[ thread ]</a>
+              <a href="subject.html#19">[ subject ]</a>
+              <a href="author.html#19">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: michael_c
+Date: 2005-10-08 07:42:00 +0200 (Sat, 08 Oct 2005)
+New Revision: 56
+
+Modified:
+   trunk/index.php
+Log:
+make sure the act is lowercase.
+
+Modified: trunk/index.php
+===================================================================
+--- trunk/index.php	2005-10-04 07:44:46 UTC (rev 55)
++++ trunk/index.php	2005-10-08 05:42:00 UTC (rev 56)
+@@ -78,7 +78,10 @@
+ if(!isset($breeze-&gt;input['act'])) {
+ 	$breeze-&gt;input['act'] = 'index';
+ }
+-elseif(!isset($acts[$breeze-&gt;input['act']])) {
++
++$breeze-&gt;input['act'] = strtolower($breeze-&gt;input['act']);
++
++if(!isset($acts[$breeze-&gt;input['act']])) {
+ 	$breeze-&gt;input['act'] = 'index';
+ }
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000018.html">[Intuiboard-svn] r55 - trunk/sources/lib
+</A></li>
+	<LI>Next message: <A HREF="000020.html">[Intuiboard-svn] r57 - trunk/sources/lib
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#19">[ date ]</a>
+              <a href="thread.html#19">[ thread ]</a>
+              <a href="subject.html#19">[ subject ]</a>
+              <a href="author.html#19">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/intuiboard-svn">More information about the Intuiboard-svn
+mailing list</a><br>
+</body></html>

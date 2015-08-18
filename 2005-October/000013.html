@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Intuiboard-svn] r50 - / sources/lib
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/intuiboard-svn/2005-October/index.html" >
+   <LINK REL="made" HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r50%20-%20/%20sources/lib&In-Reply-To=%3C200510040032.j940WHu2012850%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000012.html">
+   <LINK REL="Next"  HREF="000014.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Intuiboard-svn] r50 - / sources/lib</H1>
+    <B>intuiboard-svn-admin at lists.berlios.de</B> 
+    <A HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r50%20-%20/%20sources/lib&In-Reply-To=%3C200510040032.j940WHu2012850%40sheep.berlios.de%3E"
+       TITLE="[Intuiboard-svn] r50 - / sources/lib">intuiboard-svn-admin at lists.berlios.de
+       </A><BR>
+    <I>Tue Oct  4 02:32:17 CEST 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000012.html">[Intuiboard-svn] r49 - sources/lib
+</A></li>
+        <LI>Next message: <A HREF="000014.html">[Intuiboard-svn] r51 - /
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: michael_c
+Date: 2005-10-04 02:32:14 +0200 (Tue, 04 Oct 2005)
+New Revision: 50
+
+Modified:
+   breeze_config.php
+   index.php
+   sources/lib/core.php
+Log:
+Config added to database and a few changes reflecting that, the caching system is now improved a little as a result.
+
+Modified: breeze_config.php
+===================================================================
+--- breeze_config.php	2005-10-04 00:30:19 UTC (rev 49)
++++ breeze_config.php	2005-10-04 00:32:14 UTC (rev 50)
+@@ -39,20 +39,5 @@
+ 'db_debug'			=&gt; 1,
+ 'db_driver'			=&gt; 'mysql',
+ 
+-'site_name'			=&gt; 'Breeze Home',
+-'site_url'			=&gt; '<A HREF="http://www.breezeboard.com">http://www.breezeboard.com</A>',
+-'board_name' 			=&gt; 'Development Board',
+-'base_url'			=&gt; '<A HREF="http://localhost/intuiboard/dev/current/">http://localhost/intuiboard/dev/current/</A>',
+-'image_url'			=&gt; '<A HREF="http://localhost/intuiboard/dev/current/cache/images/">http://localhost/intuiboard/dev/current/cache/images/</A>',
+-'file_ext'			=&gt; 'php',
+-
+-'sess_max_age' 			=&gt; 15,
+-
+-'single_forum'			=&gt; 0,
+-'show_stats'			=&gt; 1,
+-'stats_online_max_age'		=&gt; 15,
+-
+-'gzip_compress'			=&gt; 1,
+-
+ );
+ ?&gt;
+\ No newline at end of file
+
+Modified: index.php
+===================================================================
+--- index.php	2005-10-04 00:30:19 UTC (rev 49)
++++ index.php	2005-10-04 00:32:14 UTC (rev 50)
+@@ -83,8 +83,13 @@
+ }
+ 
+ // load caches
+-$breeze-&gt;load_caches($acts[$breeze-&gt;input['act']][2]);
++$breeze-&gt;add_cache('config');
++$breeze-&gt;add_cache($acts[$breeze-&gt;input['act']][2]);
++$breeze-&gt;load_caches();
+ 
++// load config
++$breeze-&gt;load_config_cache();
++
+ // do it
+ require_once rootpath.&quot;sources/{$acts[$breeze-&gt;input['act']][1]}.php&quot;;
+ $act = new $acts[$breeze-&gt;input['act']][0]($breeze);
+
+Modified: sources/lib/core.php
+===================================================================
+--- sources/lib/core.php	2005-10-04 00:30:19 UTC (rev 49)
++++ sources/lib/core.php	2005-10-04 00:32:14 UTC (rev 50)
+@@ -41,6 +41,7 @@
+ 	var $func;
+ 	var $output;
+ 	
++	var $load_caches = array();
+ 	var $caches = array();
+ 	
+ 	var $skin;
+@@ -59,9 +60,7 @@
+ 		require $conf_file;
+ 		
+ 		$this-&gt;conf =&amp; $conf;
+-		
+-		$this-&gt;baseurl = $this-&gt;conf['base_url'].'?';
+-		$this-&gt;imgurl = $this-&gt;conf['image_url'];
++		unset($conf);
+ 	}
+ 	
+ 	function finish() {
+@@ -323,11 +322,11 @@
+ 		}
+ 	}
+ 	
+-	function load_caches($caches) {
+-		if(count($caches)) {
++	function load_caches() {
++		if(count($this-&gt;load_caches)) {
+ 			$keys = '';
+ 			
+-			foreach($caches as $key) {
++			foreach($this-&gt;load_caches as $key) {
+ 				$keys .= &quot;'&quot;.$key.&quot;',&quot;;
+ 			}
+ 			
+@@ -347,6 +346,34 @@
+ 			return false;
+ 		}
+ 	}
++	
++	function add_cache($cache) {
++		if(is_array($cache)) {
++			foreach($cache as $t) {
++				$this-&gt;load_caches[] = $t;
++			}
++		}
++		else {
++			$this-&gt;load_caches[] = $cache;
++		}
++		
++		return true;
++	}
++	
++	function load_config_cache() {
++		if(empty($this-&gt;caches['config'])) {
++			return false;
++		}
++		
++		foreach($this-&gt;caches['config'] as $k =&gt; $v) {
++			$this-&gt;conf[$k] = $v;
++		}
++		
++		$this-&gt;baseurl = $this-&gt;conf['base_url'].'?';
++		$this-&gt;imgurl = $this-&gt;conf['image_url'];
++		
++		return true;
++	}
+ }
+ 
+ // timer class
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000012.html">[Intuiboard-svn] r49 - sources/lib
+</A></li>
+	<LI>Next message: <A HREF="000014.html">[Intuiboard-svn] r51 - /
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#13">[ date ]</a>
+              <a href="thread.html#13">[ thread ]</a>
+              <a href="subject.html#13">[ subject ]</a>
+              <a href="author.html#13">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/intuiboard-svn">More information about the Intuiboard-svn
+mailing list</a><br>
+</body></html>

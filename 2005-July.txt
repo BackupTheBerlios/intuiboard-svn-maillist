@@ -1,0 +1,209 @@
+From flightmike1 at gmail.com  Tue Jul 26 07:18:01 2005
+From: flightmike1 at gmail.com (Michael Corcoran)
+Date: Tue, 26 Jul 2005 17:18:01 +1200
+Subject: [Intuiboard-svn] Test Message
+Message-ID: <321d8bc0507252218570f5f69@mail.gmail.com>
+
+Testing...
+-------------- next part --------------
+An HTML attachment was scrubbed...
+URL: <https://lists.berlios.de/pipermail/intuiboard-svn/attachments/20050726/9117bc32/attachment.html>
+
+From michael_c at berlios.de  Tue Jul 26 07:49:25 2005
+From: michael_c at berlios.de (Michael Corcoran at BerliOS)
+Date: Tue, 26 Jul 2005 07:49:25 +0200
+Subject: [Intuiboard-svn] r38 - cache/css
+Message-ID: <200507260549.j6Q5nPkE005437@sheep.berlios.de>
+
+Author: michael_c
+Date: 2005-07-26 07:49:21 +0200 (Tue, 26 Jul 2005)
+New Revision: 38
+
+Modified:
+   cache/css/style.css
+Log:
+margin: 0px for h5
+
+Modified: cache/css/style.css
+===================================================================
+--- cache/css/style.css	2005-07-23 00:11:30 UTC (rev 37)
++++ cache/css/style.css	2005-07-26 05:49:21 UTC (rev 38)
+@@ -121,6 +121,7 @@
+ 
+ h3,
+ h4,
++h5,
+ p {
+ 	margin: 0px;
+ }
+
+
+
+From michael_c at berlios.de  Tue Jul 26 07:50:01 2005
+From: michael_c at berlios.de (Michael Corcoran at BerliOS)
+Date: Tue, 26 Jul 2005 07:50:01 +0200
+Subject: [Intuiboard-svn] r39 - cache/skin
+Message-ID: <200507260550.j6Q5o1Eh005770@sheep.berlios.de>
+
+Author: michael_c
+Date: 2005-07-26 07:49:59 +0200 (Tue, 26 Jul 2005)
+New Revision: 39
+
+Modified:
+   cache/skin/skin_global.php
+Log:
+skin_board parts moved there
+
+Modified: cache/skin/skin_global.php
+===================================================================
+--- cache/skin/skin_global.php	2005-07-26 05:49:21 UTC (rev 38)
++++ cache/skin/skin_global.php	2005-07-26 05:49:59 UTC (rev 39)
+@@ -154,18 +154,6 @@
+ EOF;
+ }
+ 
+-function online_stats($stats) {
+-return <<<EOF
+ 
+-<div class="onlinestats">
+-	<h3>{$this->ib_core->lang['global']['board_stats']}</h3>
+-	<h4>{$this->ib_core->lang['global']['online_users']}</h4>
+-	{$stats['users']}
+-</div>
+-
+-EOF;
+ }
+-
+-
+-}
+ ?>
+\ No newline at end of file
+
+
+
+From michael_c at berlios.de  Tue Jul 26 07:50:48 2005
+From: michael_c at berlios.de (Michael Corcoran at BerliOS)
+Date: Tue, 26 Jul 2005 07:50:48 +0200
+Subject: [Intuiboard-svn] r40 - cache/skin
+Message-ID: <200507260550.j6Q5omLu005957@sheep.berlios.de>
+
+Author: michael_c
+Date: 2005-07-26 07:50:41 +0200 (Tue, 26 Jul 2005)
+New Revision: 40
+
+Modified:
+   cache/skin/skin_board.php
+Log:
+Online stats updated to includes total numbers of users online.
+
+Modified: cache/skin/skin_board.php
+===================================================================
+--- cache/skin/skin_board.php	2005-07-26 05:49:59 UTC (rev 39)
++++ cache/skin/skin_board.php	2005-07-26 05:50:41 UTC (rev 40)
+@@ -47,6 +47,19 @@
+ EOF;
+ }
+ 
++function online_stats($stats) {
++return <<<EOF
+ 
++<div class="onlinestats">
++	<h3>{$this->ib_core->lang['global']['board_stats']}</h3>
++	<h4>{$this->ib_core->lang['global']['online_users']}</h4>
++	<h5>{$stats['guests']} {$this->ib_core->lang['global']['online_guests']}, {$stats['members']} {$this->ib_core->lang['global']['online_members']}</h5>
++	{$stats['users']}
++</div>
++
++EOF;
+ }
++
++
++}
+ ?>
+\ No newline at end of file
+
+
+
+From michael_c at berlios.de  Tue Jul 26 07:51:26 2005
+From: michael_c at berlios.de (Michael Corcoran at BerliOS)
+Date: Tue, 26 Jul 2005 07:51:26 +0200
+Subject: [Intuiboard-svn] r41 - cache/lang
+Message-ID: <200507260551.j6Q5pQbc006856@sheep.berlios.de>
+
+Author: michael_c
+Date: 2005-07-26 07:51:26 +0200 (Tue, 26 Jul 2005)
+New Revision: 41
+
+Modified:
+   cache/lang/lang_global.php
+Log:
+online stats bits added and updated
+
+Modified: cache/lang/lang_global.php
+===================================================================
+--- cache/lang/lang_global.php	2005-07-26 05:50:41 UTC (rev 40)
++++ cache/lang/lang_global.php	2005-07-26 05:51:26 UTC (rev 41)
+@@ -29,9 +29,11 @@
+ 
+ $lang_global = array(
+ 
++'online_members'	=> 'Members',
++'online_guests'	=> 'Guests',
+ 'logged_out'		=> 'You are now logged out.',
+-'logged_in'			=> 'You are now logged in.',
+-'online_users'		=> 'Members Online',
++'logged_in'		=> 'You are now logged in.',
++'online_users'		=> 'Users Online',
+ 'board_stats'		=> 'Board Stats',
+ 
+ )
+
+
+
+From michael_c at berlios.de  Tue Jul 26 07:52:11 2005
+From: michael_c at berlios.de (Michael Corcoran at BerliOS)
+Date: Tue, 26 Jul 2005 07:52:11 +0200
+Subject: [Intuiboard-svn] r42 - sources
+Message-ID: <200507260552.j6Q5qBQg008503@sheep.berlios.de>
+
+Author: michael_c
+Date: 2005-07-26 07:52:10 +0200 (Tue, 26 Jul 2005)
+New Revision: 42
+
+Modified:
+   sources/act_board.php
+Log:
+Online stats now includes total counts of online users.
+
+Modified: sources/act_board.php
+===================================================================
+--- sources/act_board.php	2005-07-26 05:51:26 UTC (rev 41)
++++ sources/act_board.php	2005-07-26 05:52:10 UTC (rev 42)
+@@ -126,15 +126,22 @@
+ 		
+ 		$stats['users'] = '';
+ 		
++		$stats['guests'] = 0;
++		$stats['members'] = 0;
++		
+ 		while($row = $this->ib_core->db->fetch_row()) {
+ 			if($row['m_id']) {
+ 				$stats['users'] .= '<a href="'.$this->ib_core->baseurl.'act=member&amp;code=profile&amp;id='.$row['m_id'].'">'.$row['m_name'].'</a>,';
++				$stats['members']++;
+ 			}
++			else {
++				$stats['guests']++;
++			}
+ 		}
+ 		
+ 		$stats['users'] = preg_replace("#,$#", "", $stats['users']);
+ 		
+-		$this->output .= $this->ib_core->skin['global']->online_stats($stats);
++		$this->output .= $this->ib_core->skin['board']->online_stats($stats);
+ 	}
+ }
+ ?>
+\ No newline at end of file
+
+
+

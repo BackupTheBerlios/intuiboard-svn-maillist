@@ -1,0 +1,400 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Intuiboard-svn] r47 - / cache/css cache/lang cache/skin sources sources/lib
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/intuiboard-svn/2005-September/index.html" >
+   <LINK REL="made" HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r47%20-%20/%20cache/css%20cache/lang%20cache/skin%20sources%20sources/lib&In-Reply-To=%3C200509230012.j8N0CVWe025608%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000009.html">
+   <LINK REL="Next"  HREF="000011.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Intuiboard-svn] r47 - / cache/css cache/lang cache/skin sources sources/lib</H1>
+    <B>intuiboard-svn-admin at lists.berlios.de</B> 
+    <A HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r47%20-%20/%20cache/css%20cache/lang%20cache/skin%20sources%20sources/lib&In-Reply-To=%3C200509230012.j8N0CVWe025608%40sheep.berlios.de%3E"
+       TITLE="[Intuiboard-svn] r47 - / cache/css cache/lang cache/skin sources sources/lib">intuiboard-svn-admin at lists.berlios.de
+       </A><BR>
+    <I>Fri Sep 23 02:12:31 CEST 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000009.html">[Intuiboard-svn] r46 - / cache/css cache/images cache/lang cache/skin sources sources/lib
+</A></li>
+        <LI>Next message: <A HREF="000011.html">[Intuiboard-svn] r48 - cache/skin sources sources/lib
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#10">[ date ]</a>
+              <a href="thread.html#10">[ thread ]</a>
+              <a href="subject.html#10">[ subject ]</a>
+              <a href="author.html#10">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: michael_c
+Date: 2005-09-23 02:12:27 +0200 (Fri, 23 Sep 2005)
+New Revision: 47
+
+Modified:
+   breeze_config.php
+   cache/css/style.css
+   cache/lang/lang_error.php
+   cache/lang/lang_global.php
+   cache/skin/skin_board.php
+   cache/skin/skin_forum.php
+   cache/skin/skin_global.php
+   cache/skin/skin_login.php
+   cache/skin/skin_topic.php
+   index.php
+   sources/act_board.php
+   sources/act_forum.php
+   sources/act_login.php
+   sources/act_topic.php
+   sources/lib/core.php
+   sources/lib/db_mysql.php
+   sources/lib/output.php
+   sources/lib/session.php
+Log:
+more breezifying
+
+Modified: breeze_config.php
+===================================================================
+--- breeze_config.php	2005-09-21 10:53:22 UTC (rev 46)
++++ breeze_config.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -1,26 +1,26 @@
+ &lt;?php
+ /*
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard {$version_str$} ({$version_num$})
+-|  <A HREF="http://www.intuiboard.com">http://www.intuiboard.com</A>
++|  Breeze {$version_str$} ({$version_num$})
++|  <A HREF="http://www.breezeboard.com">http://www.breezeboard.com</A>
+ +----------------------------------------------------------------------------------------
+ |  Revision: $WCREV$
+ |  Date: $WCDATE$
+ +----------------------------------------------------------------------------------------
+ |  Copyright (C) {$copyright_year$} Michael Corcoran
+ +----------------------------------------------------------------------------------------
+-|  IntuiBoard is free software; you can redistribute it and/or modify
++|  Breeze is free software; you can redistribute it and/or modify
+ |  it under the terms of the GNU General Public License as published by
+ |  the Free Software Foundation; either version 2 of the License, or
+ |  (at your option) any later version.
+ |  
+-|  IntuiBoard is distributed in the hope that it will be useful,
++|  Breeze is distributed in the hope that it will be useful,
+ |  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ |  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Config File
+@@ -39,8 +39,8 @@
+ 'db_debug'			=&gt; 1,
+ 'db_driver'			=&gt; 'mysql',
+ 
+-'site_name'			=&gt; 'IntuiBoard Home',
+-'site_url'			=&gt; '<A HREF="http://www.intuiboard.com">http://www.intuiboard.com</A>',
++'site_name'			=&gt; 'Breeze Home',
++'site_url'			=&gt; '<A HREF="http://www.breezeboard.com">http://www.breezeboard.com</A>',
+ 'board_name' 			=&gt; 'Development Board',
+ 'base_url'			=&gt; '<A HREF="http://localhost/intuiboard/dev/current/">http://localhost/intuiboard/dev/current/</A>',
+ 'image_url'			=&gt; '<A HREF="http://localhost/intuiboard/dev/current/cache/images/">http://localhost/intuiboard/dev/current/cache/images/</A>',
+
+Modified: cache/css/style.css
+===================================================================
+--- cache/css/style.css	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/css/style.css	2005-09-23 00:12:27 UTC (rev 47)
+@@ -19,7 +19,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Stylesheet
+
+Modified: cache/lang/lang_error.php
+===================================================================
+--- cache/lang/lang_error.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/lang/lang_error.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Language File: lang_error
+
+Modified: cache/lang/lang_global.php
+===================================================================
+--- cache/lang/lang_global.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/lang/lang_global.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Language File: lang_global
+
+Modified: cache/skin/skin_board.php
+===================================================================
+--- cache/skin/skin_board.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/skin/skin_board.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Skin Template: skin_board
+
+Modified: cache/skin/skin_forum.php
+===================================================================
+--- cache/skin/skin_forum.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/skin/skin_forum.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Skin Template: skin_forum
+
+Modified: cache/skin/skin_global.php
+===================================================================
+--- cache/skin/skin_global.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/skin/skin_global.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Skin Template: skin_global
+@@ -82,7 +82,7 @@
+ 
+ function board_header() {
+ return &lt;&lt;&lt;EOF
+-&lt;a href=&quot;?act=index&quot;&gt;&lt;img src=&quot;./cache/images/header.png&quot; alt=&quot;IntuiBoard&quot; title=&quot;IntuiBoard&quot; /&gt;&lt;/a&gt;
++&lt;a href=&quot;?act=index&quot;&gt;&lt;img src=&quot;./cache/images/header.png&quot; alt=&quot;Breeze&quot; title=&quot;Breeze&quot; /&gt;&lt;/a&gt;
+ EOF;
+ }
+ 
+@@ -91,7 +91,7 @@
+ 
+ $stats
+ &lt;div class=&quot;copyright&quot;&gt;
+-	&lt;strong&gt;&lt;a href=&quot;<A HREF="http://www.intuiboard.com">http://www.intuiboard.com</A>&quot;&gt;IntuiBoard&lt;/a&gt;&lt;/strong&gt; &lt;em&gt;{$this-&gt;breeze-&gt;version}&lt;/em&gt; &copy; Copyright 2005 Michael Corcoran
++	&lt;strong&gt;&lt;a href=&quot;<A HREF="http://www.breezeboard.com">http://www.breezeboard.com</A>&quot;&gt;Breeze&lt;/a&gt;&lt;/strong&gt; &lt;em&gt;{$this-&gt;breeze-&gt;version}&lt;/em&gt; &copy; Copyright 2005 Michael Corcoran
+ &lt;/div&gt;
+ 
+ EOF;
+
+Modified: cache/skin/skin_login.php
+===================================================================
+--- cache/skin/skin_login.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/skin/skin_login.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Skin Template: skin_login
+
+Modified: cache/skin/skin_topic.php
+===================================================================
+--- cache/skin/skin_topic.php	2005-09-21 10:53:22 UTC (rev 46)
++++ cache/skin/skin_topic.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Skin Template: skin_topic
+
+Modified: index.php
+===================================================================
+--- index.php	2005-09-21 10:53:22 UTC (rev 46)
++++ index.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ */
+
+Modified: sources/act_board.php
+===================================================================
+--- sources/act_board.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/act_board.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Board Index
+
+Modified: sources/act_forum.php
+===================================================================
+--- sources/act_forum.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/act_forum.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Forum Display
+
+Modified: sources/act_login.php
+===================================================================
+--- sources/act_login.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/act_login.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Login/Register
+
+Modified: sources/act_topic.php
+===================================================================
+--- sources/act_topic.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/act_topic.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  View Topic
+
+Modified: sources/lib/core.php
+===================================================================
+--- sources/lib/core.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/lib/core.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Core Function Library
+
+Modified: sources/lib/db_mysql.php
+===================================================================
+--- sources/lib/db_mysql.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/lib/db_mysql.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  MySQL Database Abstraction Layer
+
+Modified: sources/lib/output.php
+===================================================================
+--- sources/lib/output.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/lib/output.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Output Control
+@@ -61,7 +61,7 @@
+ 		
+ 		$stats = $this-&gt;breeze-&gt;finish();
+ 		
+-		$vars['title'] 	= $title. ' - Powered by IntuiBoard';
++		$vars['title'] 	= $title. ' - Powered by Breeze';
+ 		$vars['css'] 	= $this-&gt;breeze-&gt;skin['global']-&gt;css_cached('cache/css/style.css');
+ 		$vars['header'] 	= $this-&gt;breeze-&gt;skin['global']-&gt;board_header();
+ 		$vars['footer'] 	= $this-&gt;breeze-&gt;skin['global']-&gt;board_footer($stats);
+
+Modified: sources/lib/session.php
+===================================================================
+--- sources/lib/session.php	2005-09-21 10:53:22 UTC (rev 46)
++++ sources/lib/session.php	2005-09-23 00:12:27 UTC (rev 47)
+@@ -20,7 +20,7 @@
+ |  GNU General Public License for more details.
+ |  
+ |  You should have received a copy of the GNU General Public License
+-|  along with IntuiBoard; if not, write to the Free Software
++|  along with Breeze; if not, write to the Free Software
+ |  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ +----------------------------------------------------------------------------------------
+ |  Session Library
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000009.html">[Intuiboard-svn] r46 - / cache/css cache/images cache/lang cache/skin sources sources/lib
+</A></li>
+	<LI>Next message: <A HREF="000011.html">[Intuiboard-svn] r48 - cache/skin sources sources/lib
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#10">[ date ]</a>
+              <a href="thread.html#10">[ thread ]</a>
+              <a href="subject.html#10">[ subject ]</a>
+              <a href="author.html#10">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/intuiboard-svn">More information about the Intuiboard-svn
+mailing list</a><br>
+</body></html>

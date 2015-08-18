@@ -1,0 +1,241 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Intuiboard-svn] r57 - trunk/sources/lib
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/intuiboard-svn/2005-October/index.html" >
+   <LINK REL="made" HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r57%20-%20trunk/sources/lib&In-Reply-To=%3C200510080543.j985hjCN029802%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000019.html">
+   <LINK REL="Next"  HREF="000021.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Intuiboard-svn] r57 - trunk/sources/lib</H1>
+    <B>intuiboard-svn-admin at lists.berlios.de</B> 
+    <A HREF="mailto:intuiboard-svn%40lists.berlios.de?Subject=Re%3A%20%5BIntuiboard-svn%5D%20r57%20-%20trunk/sources/lib&In-Reply-To=%3C200510080543.j985hjCN029802%40sheep.berlios.de%3E"
+       TITLE="[Intuiboard-svn] r57 - trunk/sources/lib">intuiboard-svn-admin at lists.berlios.de
+       </A><BR>
+    <I>Sat Oct  8 07:43:45 CEST 2005</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000019.html">[Intuiboard-svn] r56 - trunk
+</A></li>
+        <LI>Next message: <A HREF="000021.html">[Intuiboard-svn] r58 - trunk/sources
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#20">[ date ]</a>
+              <a href="thread.html#20">[ thread ]</a>
+              <a href="subject.html#20">[ subject ]</a>
+              <a href="author.html#20">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: michael_c
+Date: 2005-10-08 07:43:41 +0200 (Sat, 08 Oct 2005)
+New Revision: 57
+
+Modified:
+   trunk/sources/lib/core.php
+   trunk/sources/lib/db_mysql.php
+   trunk/sources/lib/session.php
+Log:
+sessions rewritten, my_get_cookie function added, last query added to SQL errors
+
+Modified: trunk/sources/lib/core.php
+===================================================================
+--- trunk/sources/lib/core.php	2005-10-08 05:42:00 UTC (rev 56)
++++ trunk/sources/lib/core.php	2005-10-08 05:43:41 UTC (rev 57)
+@@ -247,6 +247,14 @@
+ 		return $hash;
+ 	}
+ 	
++	function my_get_cookie($key) {
++		if(!isset($_COOKIE[$key])) {
++			return false;
++		}
++		
++		return $_COOKIE[$key];
++	}
++	
+ 	function my_set_cookie($key, $value, $expire = '') {
+ 		if($expire) {
+ 			$expire = intval($expire);
+
+Modified: trunk/sources/lib/db_mysql.php
+===================================================================
+--- trunk/sources/lib/db_mysql.php	2005-10-08 05:42:00 UTC (rev 56)
++++ trunk/sources/lib/db_mysql.php	2005-10-08 05:43:41 UTC (rev 57)
+@@ -144,12 +144,8 @@
+ 			$result =&amp; $this-&gt;last_result;
+ 		}
+ 		
+-		$this-&gt;timer-&gt;start();
+-		
+ 		$row = @mysql_fetch_assoc($result);
+ 		
+-		$this-&gt;times['queries'][$this-&gt;query_count] += $this-&gt;timer-&gt;stop();
+-		
+ 		return $row;
+ 	}
+ 	
+@@ -197,7 +193,7 @@
+ 	}
+ 	
+ 	function _error() {
+-		die('File: '.$this-&gt;last_file.'; Line: '.$this-&gt;last_line.'; '.mysql_error($this-&gt;conn));
++		die('File: '.$this-&gt;last_file.'; Line: '.$this-&gt;last_line.'; Query: &lt;pre&gt;'.$this-&gt;last_query.'&lt;/pre&gt; SQL Error:'.mysql_error($this-&gt;conn));
+ 	}
+ 	
+ 	function get_debug_html() {
+
+Modified: trunk/sources/lib/session.php
+===================================================================
+--- trunk/sources/lib/session.php	2005-10-08 05:42:00 UTC (rev 56)
++++ trunk/sources/lib/session.php	2005-10-08 05:43:41 UTC (rev 57)
+@@ -39,13 +39,15 @@
+ 	function lib_session(&amp;$breeze) {
+ 		$this-&gt;breeze =&amp; $breeze;
+ 		
+-		session_set_save_handler(array($this, 'cb_open'), array($this, 'cb_close'), array($this, 'cb_read'), array($this, 'cb_write'), array($this, 'cb_destroy'), array($this, 'cb_gc'));
+-		if(!ini_get('session.auto_start')) {
+-			session_start();
++		if(!@ini_get('session.auto_start')) {
++			@session_start();
+ 		}
+-		if(ini_get('url_rewriter.tags')) {
+-			ini_set('url_rewriter.tags', '');
++		
++		if(@ini_get('url_rewriter.tags')) {
++			@ini_set('url_rewriter.tags', '');
+ 		}
++		
++		$this-&gt;sess = session_id();
+ 	}
+ 	
+ 	function load_member() {
+@@ -76,8 +78,7 @@
+ 					unset($member);
+ 				}
+ 			}
+-			
+-			if(!$m_id) {
++			else {
+ 				//guest
+ 				$this-&gt;breeze-&gt;db-&gt;query(&quot;SELECT g.*,p.perm_id FROM ib_groups g
+ 									LEFT JOIN ib_perms p ON(p.perm_id=g.g_perms)
+@@ -90,62 +91,37 @@
+ 			}
+ 			
+ 			$this-&gt;breeze-&gt;member =&amp; $member;
++			
++			$this-&gt;update_session();
+ 		}
+ 	}
+-		
+-	// callback functions to handle the session data
+-	function cb_open($save_path, $session_name) {		
+-		return true;
+-	}
+ 	
+-	function cb_close() {
+-		return true;
+-	}
+-	
+-	function cb_read($id) {
+-		if(isset($this-&gt;sess) &amp;&amp; ($this-&gt;sess['s_id'] == $id)) {
+-			return $this-&gt;sess['s_data'];
+-		}
++	function update_session() {
++		$act = addslashes($this-&gt;breeze-&gt;input['act']);
+ 		
+-		$this-&gt;breeze-&gt;db-&gt;query(&quot;SELECT * FROM ib_sessions WHERE s_id='&quot;.addslashes($id).&quot;'&quot;, __FILE__, __LINE__);
+-		
+-		if(!$this-&gt;breeze-&gt;db-&gt;num_rows()) {
+-			$this-&gt;breeze-&gt;db-&gt;query(&quot;INSERT INTO ib_sessions VALUES('&quot;.addslashes($id).&quot;','',&quot;.time().&quot;,&quot;.intval($this-&gt;breeze-&gt;member['m_id']).&quot;)&quot;, __FILE__, __LINE__);
+-			$this-&gt;sess = array('s_id' =&gt; $id, 's_data' =&gt; '', 's_age' =&gt; time(), 's_member_id' =&gt; intval($this-&gt;breeze-&gt;member['m_id']));
+-			
+-			return '';
++		$extra = '';
++		foreach($_GET as $k =&gt; $v) {
++			if(strtolower($k) != 'act') {
++				$extra .= '&amp;'.$k.'='.$v;
++			}
+ 		}
++		$extra = addslashes($extra);
+ 		
+-		$row = $this-&gt;breeze-&gt;db-&gt;fetch_row();
++		$ip = addslashes($_SERVER['REMOTE_ADDR']);
+ 		
+-		$this-&gt;sess = $row;
++		$this-&gt;breeze-&gt;db-&gt;query(&quot;SELECT * FROM ib_sessions WHERE s_id='&quot;.addslashes($this-&gt;sess).&quot;' AND s_ip='&quot;.$ip.&quot;'&quot;
++						, __FILE__, __LINE__);
+ 		
+-		return $row['s_data'];
+-	}
+-	
+-	function cb_write($id, $sess_data) {
+-		$this-&gt;breeze-&gt;db-&gt;query(&quot;UPDATE ib_sessions SET s_data='&quot;.addslashes($sess_data).&quot;',s_age=&quot;.time().&quot;,s_member_id=&quot;.intval($this-&gt;breeze-&gt;member['m_id']).&quot; WHERE s_id='&quot;.addslashes($id).&quot;'&quot;, __FILE__, __LINE__);
+-		$this-&gt;sess = array('s_id' =&gt; $id, 's_data' =&gt; $sess_data, 's_age' =&gt; time(), 's_member_id' =&gt; intval($this-&gt;breeze-&gt;member['m_id']));
+-		
+-		return true;
+-	}
+-	
+-	function cb_destroy($id)  {
+-		$this-&gt;breeze-&gt;db-&gt;query(&quot;DELETE FROM ib_sessions WHERE s_id='&quot;.addslashes($id).&quot;'&quot;, __FILE__, __LINE__);
+-		unset($this-&gt;sess);
+-		
+-		return true;
+-	}
+-	
+-	function cb_gc($maxlifetime) {
+-		$maxage = time() - ($this-&gt;breeze-&gt;conf['sess_max_age']*60);
+-		
+-		$this-&gt;breeze-&gt;db-&gt;query(&quot;DELETE FROM ib_sessions WHERE s_age&gt;&quot;.addslashes($maxage), __FILE__, __LINE__);
+-		if($this-&gt;sess['s_age'] &gt; $maxlifetime) {
+-			unset($this-&gt;sess);
++		if(!$this-&gt;breeze-&gt;db-&gt;num_rows()) {
++			$this-&gt;breeze-&gt;db-&gt;query(&quot;INSERT INTO ib_sessions (s_id,s_age,s_member_id,s_act,s_extra,s_ip) 
++							VALUES('&quot;.addslashes($this-&gt;sess).&quot;',&quot;.time().&quot;,&quot;.$this-&gt;breeze-&gt;member['m_id'].&quot;,'&quot;.$act.&quot;','&quot;.$extra.&quot;','&quot;.$ip.&quot;')&quot;
++							, __FILE__, __LINE__);
+ 		}
+-		
+-		return true;
++		else {
++			$this-&gt;breeze-&gt;db-&gt;query(&quot;UPDATE ib_sessions SET s_age=&quot;.time().&quot;,s_act='&quot;.$act.&quot;',s_extra='&quot;.$extra.&quot;' 
++							WHERE s_id='&quot;.addslashes($this-&gt;sess).&quot;' AND s_ip='&quot;.$ip.&quot;'&quot;
++							, __FILE__, __LINE__);
++		}
+ 	}
+ }
+ ?&gt;
+\ No newline at end of file
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000019.html">[Intuiboard-svn] r56 - trunk
+</A></li>
+	<LI>Next message: <A HREF="000021.html">[Intuiboard-svn] r58 - trunk/sources
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#20">[ date ]</a>
+              <a href="thread.html#20">[ thread ]</a>
+              <a href="subject.html#20">[ subject ]</a>
+              <a href="author.html#20">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/intuiboard-svn">More information about the Intuiboard-svn
+mailing list</a><br>
+</body></html>
